@@ -8,7 +8,7 @@
 - [BiLSTM-CRF]双向LSTM-CRF模型(#BiLSTMcrf)
 
 <a name ="hmm"></a>
-## HMM 隐马尔科夫分词模型
+## HMM 隐马尔科夫
 1. The way to make Dictionary of hmm:<br>
 ```
   - python CountWords.py
