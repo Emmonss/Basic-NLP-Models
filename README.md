@@ -25,6 +25,7 @@ It is a diplay function, you can change the sentence in main function<br>
 ```
 and the result of evaluation is following:<br>
 
+
 | value | precision | recall | f1-score | 
 | - | :-: | -: | 
 | B | 0.75 | 0.84 | 0.79 |
@@ -32,6 +33,7 @@ and the result of evaluation is following:<br>
 | E | 0.78 | 0.88 | 0.80 |
 | S | 0.82 | 0.78 | 0.80 |
 | Average | 0.78 | 0.78 | 0.78 |
+
 
 <a name ="crf"></a>
 ## HMM 条件随机场
@@ -57,6 +59,7 @@ pay attention to the model_save_path if you want to save model to the path you w
   -python Evaluation.py
 ```
 
+
 | value | precision | recall | f1-score | 
 | - | :-: | -: | 
 | B | 0.97 | 0.98 | 0.98 |
@@ -64,6 +67,7 @@ pay attention to the model_save_path if you want to save model to the path you w
 | E | 0.97 | 0.98 | 0.97 |
 | S | 0.98 | 0.95 | 0.97 |
 | Average | 0.97 | 0.97 | 0.97 |
+
 
 3.  Chinese word Element NER:
   based on file PKUER
