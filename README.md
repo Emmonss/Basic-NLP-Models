@@ -24,6 +24,8 @@ It is a diplay function, you can change the sentence in main function<br>
   - pyhton Evaluation.py
 ```
 and the result of evaluation is following:<br>
+
+
 | Name | Academy | score | 
 | - | :-: | -: | 
 | Harry Potter | Gryffindor| 90 | 
