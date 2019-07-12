@@ -6,6 +6,9 @@
       <sourceFolder url="file://$MODULE_DIR$/CRFTraning" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CRFTraning/MSRSegment" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CRFTraning/PKUNER" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/BilstmCRF" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/BilstmCRF/ProcessData" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/BilstmCRF/ProcessData_save" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
