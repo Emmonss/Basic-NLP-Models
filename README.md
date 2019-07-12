@@ -93,13 +93,19 @@ the labels is two much so that I do not want to make tabel QAQ.....
 <a name ="BiLSTMcrf"></a>
 ## BiLSTM-CRF Segment
 Usage: need tensorflow 1.x
+
 change mode in train.py because i did not add args to change mode
+
 you can train model by using Train function
+
 evaluate model by using Test function
+
 predict one sentence by using predict_random function
+
 ```
   - python train.py
 ```
+
 If you think that it is too complicated, you can add args to change it.
 
 
