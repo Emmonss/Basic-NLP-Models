@@ -24,8 +24,8 @@ It is a diplay function, you can change the sentence in main function<br>
   - pyhton Evaluation.py
 ```
 and the result of evaluation is following:<br>
-表格
-  表头  | 表头
-  ------------- | -------------
- 单元格内容  | 单元格内容
- 单元格内容l  | 单元格内容
+|Tables         | Are           | Cool  |
+| ------------- |:-------------:| -----:|
+| col 3 is      | right-aligned | $1600 |
+| col 2 is      | centered      |   $12 |
+| zebra stripes | are neat      |    $1 |
