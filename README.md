@@ -23,8 +23,7 @@ It is a diplay function, you can change the sentence in main function<br>
 ```
   - pyhton Evaluation.py
 ```
-and the result of evaluation is following:<br>
-
+and the result of evaluation is following:
 
 | value | precision | recall | f1-score | 
 | - | :-: | -: | 
@@ -36,7 +35,7 @@ and the result of evaluation is following:<br>
 
 
 <a name ="crf"></a>
-## HMM 条件随机场
+## CRF 条件随机场
 1. Usage: need crfsuite
 ```
   - pip install crfsuite
@@ -91,9 +90,8 @@ pay attention to the model_save_path if you want to save model to the path you w
 the labels is two much so that I do not want to make tabel QAQ.....
   
 
-
 <a name ="BiLSTMcrf"></a>
-## HMM 条件随机场
+## BiLSTM-CRF Segment
 Usage: need tensorflow 1.x
 change mode in train.py because i did not add args to change mode
 you can train model by using Train function
