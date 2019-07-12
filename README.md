@@ -26,7 +26,7 @@ It is a diplay function, you can change the sentence in main function<br>
 and the result of evaluation is following:
 
 | value | precision | recall | f1-score | 
-| - | :-: | -: | 
+| - | :-: | -: | -: | 
 | B | 0.75 | 0.84 | 0.79 |
 | M | 0.71 | 0.24 | 0.36 |
 | E | 0.78 | 0.88 | 0.80 |
@@ -60,7 +60,7 @@ pay attention to the model_save_path if you want to save model to the path you w
 
 
 | value | precision | recall | f1-score | 
-| - | :-: | -: | 
+| - | :-: | -: | -: |  
 | B | 0.97 | 0.98 | 0.98 |
 | M | 0.94 | 0.90 | 0.92 |
 | E | 0.97 | 0.98 | 0.97 |
