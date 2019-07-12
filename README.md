@@ -6,6 +6,9 @@
 - [HMM]隐马尔科夫模型(#hmm)
 - [CRF]条件随机场(#crf)
 - [BiLSTM-CRF]双向LSTM-CRF模型(#BiLSTMcrf)
+- [WEB Display]网页展示(#web)
+
+
 
 <a name ="hmm"></a>
 ## HMM 隐马尔科夫
@@ -109,8 +112,15 @@ predict one sentence by using predict_random function
 If you think that it is too complicated, you can add args to change it.
 
 
-
-
+<a name ="web"></a>
+## Web Display 网页展示
+ I make a simply web to display those segment and NER model
+ 
+ the website is coded based on django
+ 
+ The code is as following:  https://github.com/Emmonss/SegmentAndNER-Web
+ 
+ and the website is on Tencent cloud: http://111.230.201.198:8080/SegmentAndNER/
 
 
 
