@@ -24,10 +24,10 @@ It is a diplay function, you can change the sentence in main function<br>
   - pyhton Evaluation.py
 ```
 and the result of evaluation is following:<br>
-|Value|precision|recall|f1-score|
-|:---|:---|
-|B|列2的内容1|列2的内容1|
-|M|列2的内容2|列2的内容1|
-|E|列2的内容2|列2的内容1|
-|S|列2的内容2|列2的内容1|
-|AVERAGE|列2的内容2|列2的内容1|
+|Value | precision | recall | f1-score |
+| :--- | :--- |
+| B | 0 | 0 | 0 |0 |
+| M | 0 | 0 | 0 |0 |
+| E | 0 | 0 | 0 |0 |
+| S | 0 | 0 | 0 |0 |
+| AVERAGE | 0 | 0 | 0 |0 |
