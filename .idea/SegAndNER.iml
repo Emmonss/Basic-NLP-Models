@@ -1,20 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="PYTHON_MODULE" version="4">
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/HMM" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/CRFTraning" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/CRFTraning/MSRSegment" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/CRFTraning/PKUNER" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/BilstmCRF" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/BilstmCRF/ProcessData" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/BilstmCRF/ProcessData_save" isTestSource="false" />
-    </content>
-    <orderEntry type="inheritedJdk" />
+    <content url="file://$MODULE_DIR$" />
+    <orderEntry type="jdk" jdkName="Python 3.7" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TestRunnerService">
-    <option name="projectConfiguration" value="pytest" />
     <option name="PROJECT_TEST_RUNNER" value="pytest" />
   </component>
 </module>
