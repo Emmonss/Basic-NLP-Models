@@ -28,7 +28,7 @@ args = parser.parse_args()
 
 timestamp = str(int(time.time())) if args.mode == 'train' else args.demo_model
 # 输出文件地址
-output_path = os.path.join('.', args.train_data + "_save", "1558343713")
+output_path = os.path.join('', args.train_data + "_save", "1558343713")
 if not os.path.exists(output_path): os.makedirs(output_path)
 summary_path = os.path.join(output_path, "summaries")
 if not os.path.exists(summary_path): os.makedirs(summary_path)
@@ -41,7 +41,7 @@ log_path = os.path.join(result_path, "log.txt")
 get_logger(log_path).info(str(args))
 
 def getDicEmbed():
-    word2id = read_dictionary(os.path.join('.', args.train_data, 'word2id.pkl'))
+    word2id = read_dictionary(os.path.join('', args.train_data, 'word2id.pkl'))
     if args.pretrain_embedding == 'random':
         embeddings = random_embedding(word2id, args.embedding_dim)
     else:
