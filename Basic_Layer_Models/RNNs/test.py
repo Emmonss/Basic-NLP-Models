@@ -18,6 +18,7 @@ class model_test():
         self.embed = 300
         self.load_model()
 
+
     def load_model(self):
         inputs = Input(shape=(self.max_len,),name='inputs',dtype=tf.float64)
         embed = Embedding(self.vocab, self.embed, mask_zero=True,dtype=tf.float64)(inputs)
