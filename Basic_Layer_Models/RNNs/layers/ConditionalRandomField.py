@@ -324,7 +324,6 @@ class CRF(tf.keras.layers.Layer):
         right_shifted_mask = tf.keras.backend.concatenate(
             [tf.keras.backend.zeros_like(mask[:, :offset]), mask[:, :-offset]],
             axis=1)
-
         # 0011100 > 0001110 => 0010000
         left_boundary = tf.keras.backend.greater(mask, right_shifted_mask)
 
