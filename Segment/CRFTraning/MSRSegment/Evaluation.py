@@ -40,5 +40,5 @@ def Test(filename):
     print(res)
 
 if __name__ == '__main__':
-    filename = '../Data/msr_test_gold.utf8'
+    filename = '../../datas/Data/msr_test_gold.utf8'
     Test(filename = filename)

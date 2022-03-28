@@ -42,7 +42,7 @@ def MakeOneNode(sent):
 
 
 if __name__ == '__main__':
-    filename = '../Data/pku.txt'
+    filename = '../../datas/Data/pku.txt'
     train_set, test_set = LoadData(filename=filename)
     print(test_set[0])
     # print(res[1])

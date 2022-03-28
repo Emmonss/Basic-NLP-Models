@@ -31,7 +31,7 @@ def MakeOneNode(sent):
 
 
 if __name__ == '__main__':
-    filename = '../Data/msr_training.utf8'
+    filename = '../../datas/Data/msr_training.utf8'
     res = LoadData(filename=filename)
     print(res[0])
     # print(res[1])

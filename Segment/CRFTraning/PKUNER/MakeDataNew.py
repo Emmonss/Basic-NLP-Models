@@ -36,6 +36,6 @@ def openfile(filedir,tr_pkl = 'train.pkl', te_pkl = 'test.pkl'):
     return train_set,test_set
 
 if __name__ == '__main__':
-    dir = '../corpus_data'
+    dir = '../../datas/corpus_data'
     train_set, test_set = openfile(dir)
     print(test_set[0])
