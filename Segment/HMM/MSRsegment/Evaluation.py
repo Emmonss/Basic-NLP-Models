@@ -31,5 +31,5 @@ def Evals(filename):
     # print(res)
 
 if __name__ == '__main__':
-    filename = '../Data/msr_test_gold.utf8'
+    filename = '../msr_data/msr_test_gold.utf8'
     Evals(filename)

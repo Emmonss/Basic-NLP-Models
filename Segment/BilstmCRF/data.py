@@ -1,173 +1,112 @@
-import sys, pickle, os, random
-import numpy as np
+import os,sys,re
+
 from tqdm import tqdm
+import numpy as np
+import pandas as pd
 
-# ## tags, BIO
-# tag2label = {"O": 0,
-#              "B-PER": 1, "I-PER": 2,
-#              "B-LOC": 3, "I-LOC": 4,
-#              "B-ORG": 5, "I-ORG": 6
-#              }
-tag2label = {"B": 0,
-             "M": 1,
-             "E": 2,
-             "S": 3,
-             }
+from tensorflow.keras.preprocessing.sequence import pad_sequences
 
+'''
+    在RNN中要控制每个文本的长度
+    原始数据中的几千长度太离谱了，需要缩一下
+    这里是按照标点符号和一些特定字符去截取
+    
+    MSR和PKU都是缩到500以内,且至少要大于1，实在缩不了的就删掉
+    
+    BERT中按照我目前资源也就只能训练128的了，当然资源够可以用512的
+    过长的文本可以删掉，也可以直接截断，看数据处理的方法了
+'''
 
-def read_corpus(corpus_path):
-    """
-    read corpus and return the list of samples
-    :param corpus_path:
-    :return: data
-    """
-    data = []
-    print("preparing the data....")
-    with open(corpus_path, encoding='utf-8') as fr:
-        lines = fr.readlines()
-    sent_, tag_ = [], []
-    for line in tqdm(lines):
-        if line != '\n':
-            [char, label] = line.strip().split()
-            sent_.append(char)
-            tag_.append(label)
-        else:
-            data.append((sent_, tag_))
-            sent_, tag_ = [], []
-    return data
+SEM_SPLIT_SIGNAL = ['，','。','）','！','；','、','。','》','，',"？"]
 
+PAD_TAG = "PAD"
+UNK_TAG = "UNK"
+END_TAG = "END"
 
+PAD_WORD = "<pad>"
+UNK_WORD = "<unk>"
+END_WORD = '<end>'
 
-def vocab_build(vocab_path, corpus_path, min_count):
-    """
-    BUG: I forget to transform all the English characters from full-width into half-width...
-    :param vocab_path:
-    :param corpus_path:
-    :param min_count:
-    :return:
-    """
-    data = read_corpus(corpus_path)
-    word2id = {}
-    print("making dic....")
-    for sent_, tag_ in tqdm(data):
-        for word in sent_:
-            if word.isdigit():
-                word = '<NUM>'
-            if word not in word2id:
-                word2id[word] = [len(word2id)+1, 1]
-            else:
-                word2id[word][1] += 1
-    low_freq_words = []
-    for word, [word_id, word_freq] in word2id.items():
-        if word_freq < min_count and word != '<NUM>':
-            low_freq_words.append(word)
-    for word in low_freq_words:
-        del word2id[word]
+WORD_COL = "words"
+TAG_COL ="tags"
 
-    new_id = 1
-    for word in word2id.keys():
-        word2id[word] = new_id
-        new_id += 1
-    word2id['<UNK>'] = new_id
-    word2id['<PAD>'] = 0
+def read_corpus(data):
+    word_data = pd.read_csv(data)
+    word_data[WORD_COL] = word_data[WORD_COL].apply(lambda x: x + " {}".format(END_WORD))
+    word_data[TAG_COL] = word_data[TAG_COL].apply(lambda x: x + " {}".format(END_TAG))
+    word_data.dropna(inplace=True)
+    return word_data
 
-    with open(vocab_path, 'wb') as fw:
-        pickle.dump(word2id, fw)
-    print("done!")
-
-def sentence2id(sent, word2id):
-    """
-
-    :param sent:
-    :param word2id:
-    :return:
-    """
-    sentence_id = []
-    for word in sent:
-        if word.isdigit():
-            word = '<NUM>'
-        if word not in word2id:
-            word = '<UNK>'
-        sentence_id.append(word2id[word])
-    return sentence_id
+def get_word_dict(word_data):
+    wordIndexDict = {PAD_WORD: 0,
+                     UNK_WORD: 1,
+                     END_WORD: 2}
+    wi = 3
+    for row in tqdm(word_data[WORD_COL].values.tolist()):
+        if type(row) == float:
+            print(row)
+            break
+        for word in row.split(" "):
+            if word not in wordIndexDict:
+                wordIndexDict[word] = wi
+                wi += 1
+    vocabSize = wi
+    maxLen = max(len(row) for row in word_data[WORD_COL].values.tolist())
+    sequenceLengths = [len(row) for row in word_data[WORD_COL].values.tolist()]
+    return wordIndexDict,vocabSize,maxLen,sequenceLengths
 
 
-def read_dictionary(vocab_path):
-    """
-    从路径文件中读取字典
-    :param vocab_path:
-    :return:
-    """
-    vocab_path = os.path.join(vocab_path)
-    with open(vocab_path, 'rb') as fr:
-        word2id = pickle.load(fr)
-    print('vocab_size:', len(word2id))
-    return word2id
+def get_tag_dict(word_data):
+    word_data[TAG_COL] = word_data[TAG_COL].apply(lambda x: re.sub("\-\S+", "", x))
 
+    tagIndexDict = {PAD_TAG: 0,
+                    UNK_TAG: 1,
+                    END_TAG: 2}
+    ti = 3
+    for row in tqdm(word_data[TAG_COL].values.tolist()):
+        for tag in row.split(" "):
+            if tag not in tagIndexDict:
+                tagIndexDict[tag] = ti
+                ti += 1
+    tagSum = len(list(tagIndexDict.keys()))
 
-def random_embedding(vocab, embedding_dim):
-    """
+    return tagSum,tagIndexDict
 
-    :param vocab:
-    :param embedding_dim:
-    :return:
-    """
-    embedding_mat = np.random.uniform(-0.25, 0.25, (len(vocab), embedding_dim))
-    embedding_mat = np.float32(embedding_mat)
-    return embedding_mat
+def word2index(wordIndexDict,word):
+    if word in wordIndexDict.keys():
+        return wordIndexDict[word]
+    else:
+        return wordIndexDict[UNK_WORD]
 
+def tag2index(tagIndexDict,tag):
+    if tag in tagIndexDict.keys():
+        return tagIndexDict[tag]
+    else:
+        return tagIndexDict[UNK_TAG]
 
-def pad_sequences(sequences, pad_mark=0):
-    """
+def get_words_label_data(path):
+    word_data = read_corpus(path)
+    print(word_data.loc[100])
+    wordIndexDict, vocabSize, maxLen, sequenceLengths = get_word_dict(word_data)
+    tagSum, tagIndexDict = get_tag_dict(word_data)
+    word_data[WORD_COL] = word_data[WORD_COL].\
+            apply(lambda x: [word2index(wordIndexDict,word) for word in x.split()])
 
-    :param sequences:
-    :param pad_mark:
-    :return:
-    """
-    max_len = max(map(lambda x : len(x), sequences))
-    seq_list, seq_len_list = [], []
-    for seq in sequences:
-        seq = list(seq)
-        seq_ = seq[:max_len] + [pad_mark] * max(max_len - len(seq), 0)
-        seq_list.append(seq_)
-        seq_len_list.append(min(len(seq), max_len))
-    return seq_list, seq_len_list
+    word_data[TAG_COL] = word_data[TAG_COL].\
+            apply(lambda x: x.split() + [PAD_TAG for i in range(maxLen - len(x.split()))])
+    word_data[TAG_COL] = word_data[TAG_COL].\
+            apply(lambda x: [tag2index(tagIndexDict,tagItem) for tagItem in x])
+    # print(word_data[:1])
 
+    X = pad_sequences(word_data[WORD_COL], value=wordIndexDict[PAD_WORD], padding='post', maxlen=maxLen)
+    y = np.array(word_data[TAG_COL].values.tolist())
 
-def batch_yield(data, batch_size, vocab, tag2label, shuffle=False):
-    """
-
-    :param data: 数据集
-    :param batch_size: batch大小
-    :param vocab: 词典
-    :param tag2label:标签对序号BMES===>0123
-    :param shuffle: 是否打乱数据
-    :return:
-    """
-
-    #打乱数据
-    if shuffle:
-        random.shuffle(data)
-
-    seqs, labels = [], []
-    ##返回batch
-    for (sent_, tag_) in data:
-        #字对应序号
-        sent_ = sentence2id(sent_, vocab)
-        label_ = [tag2label[tag] for tag in tag_]
-
-        if len(seqs) == batch_size:
-            yield seqs, labels
-            seqs, labels = [], []
-
-        seqs.append(sent_)
-        labels.append(label_)
-
-    if len(seqs) != 0:
-        yield seqs, labels
+    # print(y.shape)
+    # print(X.shape)
+    # print(X[100])
+    # print(y[100])
+    # from pprint import pprint
+    # pprint(wordIndexDict)
 
 if __name__ == '__main__':
-    label2tag = {}
-    for tag, label in tag2label.items():
-        label2tag[label] = tag
-    print(label2tag)
+    get_words_label_data('./ProcessData/msr_train.csv')

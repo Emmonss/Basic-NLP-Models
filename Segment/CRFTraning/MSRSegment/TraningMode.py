@@ -26,5 +26,5 @@ def train(filename = 'msr_training.utf8',   l1=1.0,   l2=1e-3,    max_iter=200, 
 
 
 if __name__ == '__main__':
-    filename = '../../datas/Data/msr_training.utf8'
+    filename = '../../datas/msr_data/msr_training.utf8'
     train(filename=filename)

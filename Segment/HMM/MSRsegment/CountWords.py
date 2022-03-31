@@ -61,7 +61,7 @@ def MakeDistribution(filename):
 
 
 if __name__ == '__main__':
-    filename = '../Data/msr_training.utf8'
+    filename = '../msr_data/msr_training.utf8'
     # MakePro(filename)
     MakeDistribution(filename)
 
