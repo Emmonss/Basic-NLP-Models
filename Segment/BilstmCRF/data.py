@@ -84,14 +84,22 @@ def tag2index(tagIndexDict,tag):
     else:
         return tagIndexDict[UNK_TAG]
 
-def get_words_label_data(path):
+def get_words_label_data(path,
+                         super_wordIndexDict=None,
+                         super_tagIndexDict = None,
+                         super_max_len=500,
+                         val_flag=False,):
     word_data = read_corpus(path)
-    print(word_data.loc[100])
+
     wordIndexDict, vocabSize, maxLen, sequenceLengths = get_word_dict(word_data)
     tagSum, tagIndexDict = get_tag_dict(word_data)
+
+    if val_flag:
+        maxLen = super_max_len
+        wordIndexDict=super_wordIndexDict
+        tagIndexDict = super_tagIndexDict
     word_data[WORD_COL] = word_data[WORD_COL].\
             apply(lambda x: [word2index(wordIndexDict,word) for word in x.split()])
-
     word_data[TAG_COL] = word_data[TAG_COL].\
             apply(lambda x: x.split() + [PAD_TAG for i in range(maxLen - len(x.split()))])
     word_data[TAG_COL] = word_data[TAG_COL].\
@@ -101,12 +109,7 @@ def get_words_label_data(path):
     X = pad_sequences(word_data[WORD_COL], value=wordIndexDict[PAD_WORD], padding='post', maxlen=maxLen)
     y = np.array(word_data[TAG_COL].values.tolist())
 
-    # print(y.shape)
-    # print(X.shape)
-    # print(X[100])
-    # print(y[100])
-    # from pprint import pprint
-    # pprint(wordIndexDict)
+    return wordIndexDict,vocabSize,maxLen,sequenceLengths,tagSum,tagIndexDict,X,y
 
 if __name__ == '__main__':
     get_words_label_data('./ProcessData/msr_train.csv')
