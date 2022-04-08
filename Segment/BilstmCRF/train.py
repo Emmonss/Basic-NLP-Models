@@ -1,5 +1,8 @@
+import sys,os
+sys.path.append('../../')
+
 from Basic_Layer_Models.RNNs.models.BiLSTM_CRF import BiLSTM_CRF
-from Segment.BilstmCRF.data import get_words_label_data
+from Segment.DataProcess.data import get_words_label_data
 
 '''
                  vocab_size,

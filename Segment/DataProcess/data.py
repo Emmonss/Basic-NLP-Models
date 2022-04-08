@@ -109,7 +109,11 @@ def get_words_label_data(path,
     X = pad_sequences(word_data[WORD_COL], value=wordIndexDict[PAD_WORD], padding='post', maxlen=maxLen)
     y = np.array(word_data[TAG_COL].values.tolist())
 
+    print('='*50)
+    print(X.shape)
+    print(y.shape)
+
     return wordIndexDict,vocabSize,maxLen,sequenceLengths,tagSum,tagIndexDict,X,y
 
 if __name__ == '__main__':
-    get_words_label_data('./ProcessData/msr_train.csv')
+    get_words_label_data('../datas/ProcessData/msr_train.csv')
