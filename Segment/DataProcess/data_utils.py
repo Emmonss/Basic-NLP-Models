@@ -47,3 +47,31 @@ def trans_tags(item_list):
     for word in item_list:
         res+=get_single_item(word)+" "
     return res
+
+'''
+扬 帆 远 东 做 与 中 国 合 作 的 先 行,B M M E S S B E B E S B E
+=========>
+['扬帆远东', '做', '与', '中国', '合作', '的', '先行']
+'''
+def back_trans_sentence(sentence,tags):
+    sent = sentence.strip().split()
+    tag = tags.strip().split()
+    res = []
+    try:
+        assert len(sent)==len(tag),"length is not equal"
+        temp_word = ""
+        for index,word in enumerate(sent):
+            temp_word +=word
+            t = tag[index]
+            if t == 'S' or t=='E':
+                res.append(temp_word)
+                temp_word=""
+        return res
+    except Exception as e:
+        return sent
+
+
+if __name__ == '__main__':
+    sentence = "扬 帆 远 东 做 与 中 国 合 作 的 先 行"
+    tags="B M M E S S B E B E S B E"
+    back_trans_sentence(sentence,tags)
