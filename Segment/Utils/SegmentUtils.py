@@ -1,12 +1,14 @@
 
 import numpy as np
 import pandas as pd
-import re
+import re,sys
+sys.path.append('../../')
+
 from Segment.DataProcess.data_utils import back_trans_sentence
 from Segment.DataProcess.data import WORD_COL,TAG_COL
 from pprint import pprint
-'''
-'''
+
+
 
 def get_precision(y_gold,y_true):
     return float(len(y_gold) / len(y_true))
@@ -141,6 +143,5 @@ if __name__ == '__main__':
     true_csv = pd.read_csv('./data/test_gold.csv')
     pred_csv = pd.read_csv('./data/test_pred.csv')
     res = get_pred_main(true_csv,pred_csv)
-
     pprint(res)
     pass
