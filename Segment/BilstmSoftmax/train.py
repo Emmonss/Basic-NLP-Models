@@ -1,9 +1,8 @@
 import sys,os
 sys.path.append('../../')
 sys.path.append('../')
-from Basic_Layer_Models.RNNs.models.BiLSTM_CRF import BiLSTM_CRF
+from Basic_Layer_Models.RNNs.models.BiLSTM_Softmax import BiLSTM
 from Segment.DataProcess.data import get_words_label_data
-
 
 def load_model(vocab_size,
                embeddings,
@@ -11,7 +10,7 @@ def load_model(vocab_size,
                tag_num,
                seg_max_len,
                lr):
-    model = BiLSTM_CRF(vocab_size,
+    model = BiLSTM(vocab_size,
                  embeddings,
                  hidden_units,
                  tag_num,
@@ -20,14 +19,15 @@ def load_model(vocab_size,
 
     return model
 
-
 def train(train_path,val_path=None,mode='val',
-          embeddings=300,hidden_units=512,batch_size=32,lr=0.01,epoch=20,val_split=0.1,
+          embeddings=300,hidden_units=512,batch_size=32,lr=0.001,epoch=20,val_split=0.1,
           save_flag=False,model_path=None,model_name=None):
 
     train_wordIndexDict,train_vocabSize,train_maxLen,train_sequenceLengths,\
     train_tagSum,train_tagIndexDict,train_X,train_y = get_words_label_data(train_path)
 
+
+    print(train_tagIndexDict)
     print("="*30+"train data"+'='*30)
     print("X shape:{}".format(train_X.shape))
     print("y shape:{}".format(train_y.shape))
@@ -56,26 +56,23 @@ def train(train_path,val_path=None,mode='val',
         model.save(model_path=model_path,model_name=model_name)
 
 
-
-
 ################################################################################################
 # train data mode
 ################################################################################################
 def get_msr_data_train_save():
     train_path = '../datas/ProcessData/msr_train.csv'
     val_path = '../datas/ProcessData/msr_test.csv'
-    train(train_path, val_path,mode='val',
-          save_flag=True,model_path='./model',model_name='msr_bilstm_crf')
+    train(train_path, val_path,mode='val',lr=0.001,
+          save_flag=True,model_path='./model',model_name='msr_bilstm_softmax')
 
 def get_pku_data_train_save():
     train_path = '../datas/ProcessData/pku_data.csv'
-    train(train_path, mode='train',
-          save_flag=True, model_path='./model', model_name='pku_bilstm_crf')
+    train(train_path, mode='train',lr=0.001,
+          save_flag=True, model_path='./model', model_name='pku_bilstm_softmax')
 
 ################################################################################################
 
 if __name__ == '__main__':
-    get_pku_data_train_save()
+    # get_pku_data_train_save()
 
-    # get_msr_data_train_save()
-    pass
+    get_msr_data_train_save()

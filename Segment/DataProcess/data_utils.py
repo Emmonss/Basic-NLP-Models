@@ -46,7 +46,7 @@ def trans_tags(item_list):
     res = ""
     for word in item_list:
         res+=get_single_item(word)+" "
-    return res
+    return res.strip()
 
 '''
 扬 帆 远 东 做 与 中 国 合 作 的 先 行,B M M E S S B E B E S B E

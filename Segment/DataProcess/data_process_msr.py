@@ -1,8 +1,8 @@
 import os,pickle
 import pandas as pd
 from tqdm import tqdm
-from Segment.BilstmCRF.data import  WORD_COL, TAG_COL,SEM_SPLIT_SIGNAL
-from Segment.BilstmCRF.data_utils import *
+from Segment.DataProcess.data import WORD_COL, TAG_COL,SEM_SPLIT_SIGNAL
+from Segment.DataProcess.data_utils import *
 '''
 针对msr的数据处理
     tag : B-M-E-S
@@ -57,8 +57,8 @@ if __name__ == '__main__':
     msr_train_path = '../datas/msr_data/msr_training.utf8'
     msr_test_path = '../datas/msr_data/msr_test_gold.utf8'
 
-    msr_train_csv = './ProcessData/msr_train.csv'
-    msr_test_csv = './ProcessData/msr_test.csv'
+    msr_train_csv = '../datas/ProcessData/msr_train.csv'
+    msr_test_csv = '../datas/ProcessData/msr_test.csv'
 
     trans_data(msr_train_path,msr_train_csv)
     trans_data(msr_test_path, msr_test_csv)

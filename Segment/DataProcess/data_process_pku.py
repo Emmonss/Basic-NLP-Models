@@ -1,8 +1,8 @@
 import os,pickle
 import pandas as pd
 from tqdm import tqdm
-from Segment.BilstmCRF.data import WORD_COL, TAG_COL,SEM_SPLIT_SIGNAL
-from Segment.BilstmCRF.data_utils import *
+from Segment.DataProcess.data import WORD_COL, TAG_COL,SEM_SPLIT_SIGNAL
+from Segment.DataProcess.data_utils import *
 '''
 
 针对pku的数据处理
@@ -66,6 +66,6 @@ def trans_data(path,save_path,split_param = True):
 if __name__ == '__main__':
     pku_train_path = '../datas/msr_data/pku.txt'
 
-    pku_train_csv = './ProcessData/pku_data.csv'
+    pku_train_csv = '../datas/ProcessData/pku_data.csv'
 
     trans_data(pku_train_path,pku_train_csv)
