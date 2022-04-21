@@ -15,6 +15,7 @@ if gpus:
     except RuntimeError as e:
         print(e)
 
+
 if __name__ == '__main__':
     true_csv = pd.read_csv('./preds/msr_test_gold.csv')
     pred_csv = pd.read_csv('./preds/msr_test_pred.csv')
