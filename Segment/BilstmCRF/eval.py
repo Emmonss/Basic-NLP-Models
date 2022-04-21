@@ -1,50 +1,22 @@
-import os
-from itertools import chain
-from sklearn.metrics import classification_report
-from sklearn.preprocessing import LabelBinarizer
+import os,sys
+sys.path.append('../')
 
-def Evaluation(y_true, y_pred):
+import pandas as pd
+import tensorflow as tf
 
-    lb = LabelBinarizer()
-    y_true_combined = lb.fit_transform(list(chain.from_iterable(y_true)))
-    y_pred_combined = lb.transform(list(chain.from_iterable(y_pred)))
+from pprint import pprint
+from Segment.Utils.SegmentUtils import get_pred_main
 
-    tagset = set(lb.classes_) - {'O'}
-    tagset = sorted(tagset, key=lambda tag: tag.split('-', 1)[::-1])
-    class_indices = {cls: idx for idx, cls in enumerate(lb.classes_)}
+gpus = tf.config.experimental.list_physical_devices('GPU')
+if gpus:
+    try:
+        for gpu in gpus:
+            tf.config.experimental.set_memory_growth(gpu,True)
+    except RuntimeError as e:
+        print(e)
 
-    return classification_report(
-        y_true_combined,
-        y_pred_combined,
-        labels=[class_indices[cls] for cls in tagset],
-        target_names=tagset,
-    )
-
-def conlleval(label_predict, label_path, metric_path):
-    """
-    :param label_predict:
-    :param label_path:
-    :param metric_path:
-    :return:
-    """
-    true = []
-    pred = []
-    for sent_result in label_predict:
-        true_ = []
-        pred_ = []
-        for char, tag, tag_ in sent_result:
-            true_.append(tag)
-            pred_.append(tag_)
-        true.append(true_)
-        pred.append(pred_)
-    res = Evaluation(true,pred)
-    return res
-    #             tag = '0' if tag == 'O' else tag
-    #             char = char.encode("utf-8")
-    #             line.append("{} {} {}\n".format(char, tag, tag_))
-    #         line.append("\n")
-    #     fw.writelines(line)
-    # os.system("perl {} < {} > {}".format(eval_perl, label_path, metric_path))
-    # with open(metric_path) as fr:
-    #     metrics = [line.strip() for line in fr]
-    # return metrics
+if __name__ == '__main__':
+    true_csv = pd.read_csv('./preds/msr_test_gold.csv')
+    pred_csv = pd.read_csv('./preds/msr_test_pred.csv')
+    res = get_pred_main(true_csv,pred_csv)
+    pprint(res)

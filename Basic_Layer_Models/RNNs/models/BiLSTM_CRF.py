@@ -12,7 +12,7 @@ class BiLSTM_CRF(NLUModel):
                  hidden_units,
                  tag_num,
                  seg_max_len,
-                 lr,
+                 lr=0.001,
                  opt='Adam'):
         super(BiLSTM_CRF, self).__init__()
         self.vocab_size = vocab_size

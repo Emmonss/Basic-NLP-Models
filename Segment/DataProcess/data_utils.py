@@ -60,12 +60,19 @@ def back_trans_sentence(sentence,tags):
     try:
         assert len(sent)==len(tag),"length is not equal"
         temp_word = ""
+        c_index = 0
         for index,word in enumerate(sent):
             temp_word +=word
             t = tag[index]
             if t == 'S' or t=='E':
                 res.append(temp_word)
                 temp_word=""
+                c_index = index
+        if not c_index == len(sent):
+            temp_word=''
+            for index in range(c_index+1,len(sent)):
+                temp_word+=sent[index]
+            res.append(temp_word)
         return res
     except Exception as e:
         return sent
@@ -73,5 +80,6 @@ def back_trans_sentence(sentence,tags):
 
 if __name__ == '__main__':
     sentence = "扬 帆 远 东 做 与 中 国 合 作 的 先 行"
-    tags="B M M E S S B E B E S B E"
-    back_trans_sentence(sentence,tags)
+    tags="B M M E S S B E B E B B M"
+    res = back_trans_sentence(sentence,tags)
+    print(res)
