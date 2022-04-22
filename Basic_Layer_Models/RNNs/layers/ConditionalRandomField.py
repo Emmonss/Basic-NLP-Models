@@ -32,12 +32,12 @@ class CRF(tf.keras.layers.Layer):
     Examples:
     ```python
         from tensorflow_addons.layers import CRF
-        model = Sequential()
-        model.add(Embedding(3001, 300, mask_zero=True)
+        models = Sequential()
+        models.add(Embedding(3001, 300, mask_zero=True)
         crf = CRF(10, name='crf_layer')
-        model.add(crf)
-        model.compile('adam', loss={'crf_layer': crf.loss})
-        model.fit(x, y)
+        models.add(crf)
+        models.compile('adam', loss={'crf_layer': crf.loss})
+        models.fit(x, y)
     ```
     Arguments:
         units: Positive integer, dimensionality of the output space,
@@ -50,7 +50,7 @@ class CRF(tf.keras.layers.Layer):
         chain_constraint: Constraint function applied to
             the `chain_kernel` weights matrix.
         use_boundary: Boolean (default True), indicating if trainable
-            start-end chain energies should be added to model.
+            start-end chain energies should be added to models.
         boundary_initializer: Initializer for the `left_boundary`,
             'right_boundary' weights vectors,
             used for the start/left and end/right boundary energy.
@@ -366,7 +366,7 @@ class CRF(tf.keras.layers.Layer):
         return decode_tags, best_score
 
     def get_config(self):
-        # used for loading model from disk
+        # used for loading models from disk
         config = {
             "units":
                 self.units,

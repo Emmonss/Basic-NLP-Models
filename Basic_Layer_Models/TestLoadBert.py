@@ -33,5 +33,5 @@ if __name__ == '__main__':
     model = load_bert(cofig_path=config_path,checkpoint_path=ckpt_path)
     # from bert4keras.models import build_transformer_model
 
-    # model = build_transformer_model(config_path=config_path,checkpoint_path = ckpt_path,model='bert')
-    # model.summary()
+    # models = build_transformer_model(config_path=config_path,checkpoint_path = ckpt_path,models='bert')
+    # models.summary()

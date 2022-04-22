@@ -58,10 +58,10 @@ def train(train_path,val_path=None,mode='val',
         print("=" * 30 + "val data" + '=' * 30)
         print("X shape:{}".format(val_X.shape))
         print("y shape:{}".format(val_y.shape))
-    #     model.fit_val(train_X,train_y,valid_data=(val_X,val_y),batch_size=batch_size,epoch=epoch)
+    #     models.fit_val(train_X,train_y,valid_data=(val_X,val_y),batch_size=batch_size,epoch=epoch)
     #
     # elif mode=='train':
-    #     model.fit_train(train_X, train_y,val_split=val_split, batch_size=batch_size, epoch=epoch)
+    #     models.fit_train(train_X, train_y,val_split=val_split, batch_size=batch_size, epoch=epoch)
 
     if not (save_flag==False or model_name==None or model_path==None or param_name==None):
         if not os.path.exists(model_path):

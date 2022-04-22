@@ -272,7 +272,7 @@ class BERT(Transformer):
             outputs.append(x)
 
         if self.with_mlm:
-            #mask language model
+            #mask language models
             x = outputs[0]
             x = self.apply(
                 inputs=x,

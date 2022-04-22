@@ -37,11 +37,11 @@ class model_test():
         # inputs = Input(shape=(self.max_len,),name='inputs')
         # embed = Embedding(self.vocab, self.embed)(inputs)
         # crf = CRF(self.tag_sum,name='crf')(embed)
-        # self.model = Model(inputs, crf)
+        # self.models = Model(inputs, crf)
         # opt = tf.keras.optimizers.Adam(learning_rate=1e-4)
-        # self.model.compile(optimizer=opt,
+        # self.models.compile(optimizer=opt,
         #                     loss='binary_crossentropy')
-        # self.model.compile(optimizer=opt,
+        # self.models.compile(optimizer=opt,
         #                     loss={'crf_layer': crf.loss})
 
 

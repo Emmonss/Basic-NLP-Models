@@ -81,6 +81,10 @@ def predict_main(model_path,param_path,val_path,save_path_head,batch_size=32):
         WORD_COL: words_all,
         TAG_COL: pred_tags_all
     }
+
+    if not os.path.exists(PRED_RES_PATH_ROOT):
+        os.mkdir(PRED_RES_PATH_ROOT)
+
     pd.DataFrame(dict_gold).\
         to_csv(os.path.join(PRED_RES_PATH_ROOT,'{}_gold.csv'.format(save_path_head)),index=False)
     pd.DataFrame(dict_pred). \
@@ -110,4 +114,5 @@ def get_pku_data_predict():
 if __name__ == '__main__':
     # get_pku_data_predict()
 
-    get_msr_data_predict()
+    # get_msr_data_predict()
+    pass

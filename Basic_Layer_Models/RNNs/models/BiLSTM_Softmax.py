@@ -32,6 +32,7 @@ class BiLSTM(NLUModel):
                                 merge_mode='sum',name='bilistm_2')(bi_lstm1)
 
         output = Dense(self.tag_sum,activation='softmax',name='outputs')(bi_lstm2)
+        output = tf.keras.backend.argmax(output,axis=-1)
         self.model = Model(inputs, output)
 
     def compile_model(self):

@@ -16,8 +16,26 @@ if gpus:
         print(e)
 
 
-if __name__ == '__main__':
-    true_csv = pd.read_csv('./preds/msr_test_gold.csv')
-    pred_csv = pd.read_csv('./preds/msr_test_pred.csv')
-    res = get_pred_main(true_csv,pred_csv)
+def eval_main(true_csv_path,pred_csv_path):
+    true_csv = pd.read_csv(true_csv_path)
+    pred_csv = pd.read_csv(pred_csv_path)
+    res = get_pred_main(true_csv, pred_csv)
     pprint(res)
+
+
+################################################################################################
+# train data mode
+################################################################################################
+def get_msr_data_eval():
+    true_csv_path = './preds/msr_test_gold.csv'
+    pred_csv_path = './preds/msr_test_pred.csv'
+    eval_main(true_csv_path,pred_csv_path)
+
+def get_pku_data_eval():
+    pass
+
+################################################################################################
+
+
+if __name__ == '__main__':
+    get_msr_data_eval()
