@@ -7,7 +7,7 @@ sys.path.append('../../')
 from Segment.DataProcess.data_utils import back_trans_sentence
 from Segment.DataProcess.data import WORD_COL,TAG_COL
 from pprint import pprint
-
+from tqdm import tqdm
 
 
 def get_precision(y_gold,y_true):
@@ -51,7 +51,7 @@ def get_oov_iv(y_true,y_pred,word_dict):
     assert len(y_pred) == len(y_true), 'the length is not equal'
 
     oov,oov_r,iv,iv_r=0,0,0,0
-    for index in range(len(y_true)):
+    for index in tqdm(range(len(y_true))):
         y_true_region = to_region(y_true[index])
         y_pred_region = to_region(y_pred[index])
 
@@ -106,7 +106,7 @@ def get_pred_main(true_csv,pred_csv):
     gold_dict = []
     gold_list = []
     gold_tag = []
-    for index,item in true_csv.iterrows():
+    for index,item in tqdm(true_csv.iterrows()):
         sents = back_trans_sentence(sentence=item[WORD_COL],tags=item[TAG_COL])
         gold_list.append(sents)
         gold_tag.append(item[TAG_COL].strip().split())
@@ -115,18 +115,21 @@ def get_pred_main(true_csv,pred_csv):
 
     pred_list = []
     pred_tag = []
-    for index, item in pred_csv.iterrows():
+    for index, item in tqdm(pred_csv.iterrows()):
         sents = back_trans_sentence(sentence=item[WORD_COL], tags=item[TAG_COL])
         pred_list.append(sents)
         pred_tag.append(item[TAG_COL].strip().split())
 
     word_acc_count, word_all_count, word_acc = get_word_accuracy(y_true=gold_tag,y_pred=pred_tag)
-
+    print('acc done')
 
     precision, recall, f1_score = get_segment_pred(y_true=gold_list,y_pred=pred_list)
-
+    print("f1 done")
 
     iv,oov = get_oov_iv(y_true=gold_list,y_pred=pred_list,word_dict=gold_dict)
+    print('iv oov done')
+    # iv=0.0
+    # oov=0.0
 
     res_dict = {
         'word_acc':word_acc,

@@ -141,13 +141,29 @@ class Make_HMM_Matrx():
         }
         save_pkl(os.path.join(save_path,'{}_hmm.pkl'.format(path_head)),save_dict)
 
-if __name__ == '__main__':
-    # print([0]*4)
+
+################################################################################################
+# train data mode
+################################################################################################
+def get_msr_data_hmm_save():
     h = Make_HMM_Matrx()
     file_name = '../datas/ProcessData/msr_train.csv'
     h.make_with_train_file(file_name)
-    h.save_matrix(save_path='./matrixs',path_head='msr')
+    h.save_matrix(save_path='./matrixs', path_head='msr')
+
+    pass
+
+def get_pku_data_hmm_save():
+    h = Make_HMM_Matrx()
+    file_name = '../datas/ProcessData/pku_data.csv'
+    h.make_with_train_file(file_name)
+    h.save_matrix(save_path='./matrixs', path_head='pku')
+    pass
+################################################################################################
+if __name__ == '__main__':
+    get_msr_data_hmm_save()
+    get_pku_data_hmm_save()
 
     # h.load_from_path(model_path='./matrixs/msr_hmm.pkl')
-    pass
+    # pass
 

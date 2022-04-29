@@ -27,11 +27,22 @@ def get_pku_data_eval():
     pred_csv_path = './preds/pku_pred.csv'
     eval_main(true_csv_path, pred_csv_path)
 
+def get_pku_msr_data_eval():
+    true_csv_path = './preds/pku_train_msr_test_gold.csv'
+    pred_csv_path = './preds/pku_train_msr_test_pred.csv'
+    eval_main(true_csv_path, pred_csv_path)
+
+def get_msr_pku_data_eval():
+    true_csv_path = './preds/msr_train_pku_test_gold.csv'
+    pred_csv_path = './preds/msr_train_pku_test_pred.csv'
+    eval_main(true_csv_path, pred_csv_path)
 
 ################################################################################################
 
 
 if __name__ == '__main__':
     # get_msr_data_eval()
-    get_pku_data_eval()
+    # get_pku_data_eval()
+    # get_pku_msr_data_eval()
+    # get_msr_pku_data_eval()
     pass

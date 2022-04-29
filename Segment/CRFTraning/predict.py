@@ -58,10 +58,26 @@ def get_pku_data_predict_save():
                model_path=model_path,
                pred_name_head='pku')
     pass
+
+def get_pku_msr_predict_save():
+    model_path = './models/pku_crf.crfsuite'
+    val_path = '../datas/ProcessData/msr_test.csv'
+    prediction(val_path=val_path,
+               model_path=model_path,
+               pred_name_head='pku_train_msr_test')
+
+def get_msr_pku_predict_save():
+    model_path = './models/msr_crf.crfsuite'
+    val_path = '../datas/ProcessData/pku_data.csv'
+    prediction(val_path=val_path,
+               model_path=model_path,
+               pred_name_head='msr_train_pku_test')
 ################################################################################################
 
 
 if __name__ == '__main__':
     # get_msr_data_predict_save()
-    get_pku_data_predict_save()
+    # get_pku_data_predict_save()
+    get_pku_msr_predict_save()
+    get_msr_pku_predict_save()
     pass
