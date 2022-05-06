@@ -1,11 +1,10 @@
-# CRF for Segment
-+ CRF 分词运用
+# HMM for Segment
++ HMM 分词运用
 
 ## requirement
 > pandas<br>
 > numpy<br>
 > tqdm<br>
-> python-crfsuite==0.9.7<br>
 
 ## Input Data Format
 + [how to prepare](./DataProcess/README.md)
@@ -14,11 +13,10 @@
 希 腊 的 经 济 结 构 较 特 殊 。,B E S B E B E S B E S<br>
 
 ## Running Construction
-+ ./models
++ ./matrixs
 + ./preds
-+ data.py
-+ model.py
-+ train.py
++ HMM_Matrix.py
++ Vertebi.py
 + predict.py
 + eval.py
 

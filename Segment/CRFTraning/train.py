@@ -2,7 +2,7 @@ import pycrfsuite,os
 import pandas as pd
 
 from tqdm import tqdm
-from Segment.CRFTraning.mode import *
+from Segment.CRFTraning.model import *
 from Segment.CRFTraning.data import *
 
 def train(filename,params,model_file=None,mode_path =None):

@@ -2,7 +2,7 @@ import pycrfsuite,os,sys
 sys.path.append('../')
 sys.path.append('../../')
 from Segment.CRFTraning.data import *
-from Segment.CRFTraning.mode import *
+from Segment.CRFTraning.model import *
 from Segment.DataProcess.data import WORD_COL,TAG_COL
 from tqdm import tqdm
 
