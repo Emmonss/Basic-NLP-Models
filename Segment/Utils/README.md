@@ -8,7 +8,7 @@
 >扬 帆 远 东 做 与 中 国 合 作 的 先 行,B E S S S S B E B E S B E<br>
 
 则结果准确率:<br>
-$acc = (y_true&y_pred)/y_pred = 11/13 = 84.6%$
+https://latex.codecogs.com/svg.image?acc&space;=&space;\frac{y^{acc}}{y^{true}}&space;=&space;\frac{11}{13}&space;=&space;84.6%
 
 ####2.分词结果的精准率，召回率,F1值<br/>
 
