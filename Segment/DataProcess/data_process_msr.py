@@ -1,4 +1,5 @@
-import os,pickle
+import os,pickle,sys
+sys.path.append('../')
 import pandas as pd
 from tqdm import tqdm
 from Segment.DataProcess.data import WORD_COL, TAG_COL,SEM_SPLIT_SIGNAL
