@@ -24,6 +24,7 @@ SEM_SPLIT_SIGNAL = ['，','。','）','！','；','、','。','》','，',"？"]
 
 WORD_COL = "words"
 TAG_COL ="tags"
+SEG_LEN = 30
 
 def read_corpus(data):
     word_data = pd.read_csv(data)
