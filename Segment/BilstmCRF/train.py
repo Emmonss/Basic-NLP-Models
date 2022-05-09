@@ -58,10 +58,11 @@ def train(train_path,val_path=None,mode='val',
         print("=" * 30 + "val data" + '=' * 30)
         print("X shape:{}".format(val_X.shape))
         print("y shape:{}".format(val_y.shape))
-    #     models.fit_val(train_X,train_y,valid_data=(val_X,val_y),batch_size=batch_size,epoch=epoch)
-    #
-    # elif mode=='train':
-    #     models.fit_train(train_X, train_y,val_split=val_split, batch_size=batch_size, epoch=epoch)
+        model.fit_val(train_X,train_y,valid_data=(val_X,val_y),batch_size=batch_size,epoch=epoch)
+        #msr的验证集太大了，太慢了，可以考虑还是split去验证
+        # model.fit_val(train_X,train_y,valid_data=val_split,batch_size=batch_size,epoch=epoch)
+    elif mode=='train':
+        model.fit_train(train_X, train_y,val_split=val_split, batch_size=batch_size, epoch=epoch)
 
     if not (save_flag==False or model_name==None or model_path==None or param_name==None):
         if not os.path.exists(model_path):
@@ -76,8 +77,6 @@ def train(train_path,val_path=None,mode='val',
             'train_tagIndexDict':train_tagIndexDict
         }
         save_pkl(os.path.join(model_path,'{}.pkl'.format(param_name)),train_param_dict)
-
-
 
 
 ################################################################################################

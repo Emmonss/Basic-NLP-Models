@@ -36,5 +36,13 @@ def trans_sentence(item_list):
             res+="{} ".format(words)
     return res.strip()
 
+#shu
+def get_bio(text,tag):
+    if tag==UNK_TAG:
+        return [UNK_TAG]*len(text)
+    else:
+        return ['B_{}'.format(tag)]+['I_{}'.format(tag)]*(len(text)-1)
 
 
+if __name__ == '__main__':
+    print(get_bio("中共中央","O"))

@@ -1,7 +1,7 @@
 import sys
 sys.path.append('../')
 import pandas as pd
-from Segment.DataProcess.data import WORD_COL,TAG_COL
+from NER.DataProcess.data import WORD_COL,TAG_COL
 
 def LoadData(filename):
     seq = []
