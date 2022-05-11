@@ -31,10 +31,43 @@ def get_pd2014_train_save():
     }
     train(filename='../data/Proessdata/pd2014.csv', params=param,
           mode_path='./models', model_file='pd2014.crfsuite')
+
+def get_msra_train_save():
+    param = {
+        'c1': 1.0,  # coefficient for L1 penalty
+        'c2': 1e-3,  # coefficient for L2 penalty
+        'max_iterations': 200,
+        'feature.possible_transitions': True,
+        'feature.minfreq': 3
+    }
+    train(filename='../data/Proessdata/msra_train.csv', params=param,
+          mode_path='./models', model_file='msra.crfsuite')
     pass
 
+def get_boston_train_save():
+    param = {
+        'c1': 1.0,  # coefficient for L1 penalty
+        'c2': 1e-3,  # coefficient for L2 penalty
+        'max_iterations': 200,
+        'feature.possible_transitions': True,
+        'feature.minfreq': 3
+    }
+    train(filename='../data/Proessdata/boston.csv', params=param,
+          mode_path='./models', model_file='boston.crfsuite')
+    pass
 
+def get_weibo_train_save():
+    param = {
+        'c1': 1.0,  # coefficient for L1 penalty
+        'c2': 1e-3,  # coefficient for L2 penalty
+        'max_iterations': 200,
+        'feature.possible_transitions': True,
+        'feature.minfreq': 3
+    }
+    train(filename='../data/Proessdata/weibo_train.csv', params=param,
+          mode_path='./models', model_file='weibo.crfsuite')
+    pass
 ################################################################################################
 if __name__ == '__main__':
-    get_pd2014_train_save()
+    get_weibo_train_save()
     pass
