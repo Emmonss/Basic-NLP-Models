@@ -59,9 +59,30 @@ def get_boston_predict_save():
                pred_name_head='boston')
     pass
 
+def get_clue_predict_save():
+    model_path = './models/clue.crfsuite'
+    val_path = '../data/Proessdata/clue_dev.csv'
+    prediction(val_path=val_path,
+               model_path=model_path,
+               pred_name_head='clue')
+    pass
+
+def get_weibo_predict_save():
+    model_path = './models/weibo.crfsuite'
+    val_path = '../data/Proessdata/weibo_val.csv'
+    prediction(val_path=val_path,
+               model_path=model_path,
+               pred_name_head='weibo_val')
+
+    val_path = '../data/Proessdata/weibo_test.csv'
+    prediction(val_path=val_path,
+               model_path=model_path,
+               pred_name_head='weibo_test')
+    pass
+
 ################################################################################################
 
 
 if __name__ == '__main__':
-    get_boston_predict_save()
+    get_weibo_predict_save()
     pass

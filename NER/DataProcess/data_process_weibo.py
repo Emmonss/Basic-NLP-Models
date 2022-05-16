@@ -52,10 +52,10 @@ def trans_data(data_path,save_path):
 
         data = pd.DataFrame(dict)
 
-        maxLen = max(len(row) for row in data[WORD_COL].values.tolist())
+        maxLen = max(len(row.split()) for row in data[WORD_COL].values.tolist())
         print(maxLen)
         for index, row in enumerate(data[WORD_COL].values.tolist()):
-            if len(row) == maxLen:
+            if len(row.split()) == maxLen:
                 print(index)
                 print(row)
 

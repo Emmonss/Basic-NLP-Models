@@ -40,10 +40,10 @@ def trans_data(data_path,save_path):
 
     data = pd.DataFrame(dict)
 
-    maxLen = max(len(row) for row in data[WORD_COL].values.tolist())
+    maxLen = max(len(row.split()) for row in data[WORD_COL].values.tolist())
     print(maxLen)
     for index, row in enumerate(data[WORD_COL].values.tolist()):
-        if len(row) == maxLen:
+        if len(row.split()) == maxLen:
             print(index)
             print(row)
 
@@ -52,8 +52,8 @@ def trans_data(data_path,save_path):
 
 
 if __name__ == '__main__':
-    # trans_data(data_path='../data/msra/test_label.txt',
-    #            save_path='../data/Proessdata/msra_test.csv')
-    trans_data(data_path='../data/msra/train.txt',
-               save_path='../data/Proessdata/msra_train.csv')
+    trans_data(data_path='../data/msra/test_label.txt',
+               save_path='../data/Proessdata/msra_test.csv')
+    # trans_data(data_path='../data/msra/train.txt',
+    #            save_path='../data/Proessdata/msra_train.csv')
     pass
