@@ -3,7 +3,7 @@ import os,sys,re
 from tqdm import tqdm
 import numpy as np
 import pandas as pd
-
+from pprint import pprint
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 '''
@@ -53,14 +53,15 @@ def get_word_dict(word_data):
 
 
 def get_tag_dict(word_data):
-    word_data[TAG_COL] = word_data[TAG_COL].apply(lambda x: re.sub("\-\S+", "", x))
+    # word_data[TAG_COL] = word_data[TAG_COL].apply(lambda x: re.sub("\-\S+", "", x))
 
     tagIndexDict = {PAD_TAG: 0,
                     UNK_TAG: 1,
                     END_TAG: 2}
     ti = 3
     for row in tqdm(word_data[TAG_COL].values.tolist()):
-        for tag in row.split(" "):
+        tags = row.strip().split(" ")
+        for tag in tags:
             if tag not in tagIndexDict:
                 tagIndexDict[tag] = ti
                 ti += 1
@@ -86,7 +87,14 @@ def get_words_label_data(path,
                          super_tagIndexDict = None,
                          super_max_len=500,
                          val_flag=False,):
-    pass
+    word_data = read_corpus(path)
+
+    wordIndexDict, vocabSize, maxLen, sequenceLengths = get_word_dict(word_data)
+    print(vocabSize,maxLen)
+    tagSum, tagIndexDict = get_tag_dict(word_data)
+    print(tagSum)
+    pprint(tagIndexDict)
 
 if __name__ == '__main__':
+    get_words_label_data('../data/Proessdata/weibo_train.csv')
     pass
