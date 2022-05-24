@@ -102,7 +102,7 @@ def get_segment_pred(y_true,y_pred):
     return precision,recall,f1_score
 
 def get_pred_main(true_csv,pred_csv):
-    assert len(true_csv)==len(true_csv),'length is not equal'
+    assert len(true_csv)==len(pred_csv),'length is not equal'
     gold_dict = []
     gold_list = []
     gold_tag = []

@@ -54,7 +54,7 @@ def get_word_dict(word_data):
 
 def get_tag_dict(word_data):
     # word_data[TAG_COL] = word_data[TAG_COL].apply(lambda x: re.sub("\-\S+", "", x))
-
+    tag_set = set()
     tagIndexDict = {PAD_TAG: 0,
                     UNK_TAG: 1,
                     END_TAG: 2}
@@ -65,9 +65,11 @@ def get_tag_dict(word_data):
             if tag not in tagIndexDict:
                 tagIndexDict[tag] = ti
                 ti += 1
+            if tag.startswith('B') or tag.startswith('I'):
+                tag_set.add(tag[2:])
     tagSum = len(list(tagIndexDict.keys()))
 
-    return tagSum,tagIndexDict
+    return tagSum,tagIndexDict,tag_set
 
 def word2index(wordIndexDict,word):
     if word in wordIndexDict.keys():
@@ -90,11 +92,37 @@ def get_words_label_data(path,
     word_data = read_corpus(path)
 
     wordIndexDict, vocabSize, maxLen, sequenceLengths = get_word_dict(word_data)
-    print(vocabSize,maxLen)
-    tagSum, tagIndexDict = get_tag_dict(word_data)
-    print(tagSum)
-    pprint(tagIndexDict)
+    tagSum, tagIndexDict,tag_set = get_tag_dict(word_data)
+
+    if val_flag:
+        maxLen = super_max_len
+        wordIndexDict=super_wordIndexDict
+        tagIndexDict = super_tagIndexDict
+    word_data[WORD_COL] = word_data[WORD_COL].\
+            apply(lambda x: [word2index(wordIndexDict,word) for word in x.split()])
+    word_data[TAG_COL] = word_data[TAG_COL].\
+            apply(lambda x: x.split() + [PAD_TAG for i in range(maxLen - len(x.split()))])
+    word_data[TAG_COL] = word_data[TAG_COL].\
+            apply(lambda x: [tag2index(tagIndexDict,tagItem) for tagItem in x])
+
+    X = pad_sequences(word_data[WORD_COL], value=wordIndexDict[PAD_WORD],
+                      padding='post', maxlen=maxLen)
+    y = np.array(word_data[TAG_COL].values.tolist())
+
+    return wordIndexDict,vocabSize,maxLen,sequenceLengths,tagSum,tagIndexDict,tag_set,X,y
+
 
 if __name__ == '__main__':
-    get_words_label_data('../data/Proessdata/weibo_train.csv')
+    wordIndexDict,vocabSize,maxLen,sequenceLengths,tagSum,tagIndexDict,tag_set,\
+    X,y = get_words_label_data('../data/Proessdata/weibo_train.csv')
+
+    pprint(tagIndexDict)
+    print(tag_set)
+    print(maxLen)
+
+    print(np.shape(X))
+    print(np.shape(y))
+    print(X[1])
+    print(y[1])
     pass
+    "saf"
