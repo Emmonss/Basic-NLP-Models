@@ -86,7 +86,8 @@ def get_pred_main(true_csv,pred_csv,ner_dict,mid='-'):
 
     pprint(eval_dict)
 
-    print("all tags:{}, pred tags:{}, pro:{}".format(all,preds,float(preds/all)))
+    # print("all tags:{}, pred tags:{}, pro:{}".format(all,preds,float(preds/all)))
+    return eval_dict,[all,preds,float(preds/all)]
 
 
 def eval():
@@ -96,23 +97,10 @@ def eval():
     # print(ner_dict)
     # res = get_pred_main(true_csv, pred_csv, ner_dict, mid='-')
 
-    # true_csv = pd.read_csv('../CRF/preds/clue_gold.csv')
-    # pred_csv = pd.read_csv('../CRF/preds/clue_pred.csv')
-    # ner_dict = load_pkl('../BiLSTM_CRF/models/clue_ner_params.pkl')['train_tagset']
-    # print(ner_dict)
-    # res = get_pred_main(true_csv, pred_csv, ner_dict, mid='_')
 
-    # true_csv = pd.read_csv('../CRF/preds/boston_gold.csv')
-    # pred_csv = pd.read_csv('../CRF/preds/boston_pred.csv')
-    # ner_dict = load_pkl('../BiLSTM_CRF/models/boston_ner_params.pkl')['train_tagset']
-    # print(ner_dict)
-    # res = get_pred_main(true_csv, pred_csv,ner_dict,mid='_')
 
-    # true_csv = pd.read_csv('../CRF/preds/msra_gold.csv')
-    # pred_csv = pd.read_csv('../CRF/preds/msra_pred.csv')
-    # ner_dict = load_pkl('../BiLSTM_CRF/models/msra_ner_params.pkl')['train_tagset']
-    # print(ner_dict)
-    # res = get_pred_main(true_csv, pred_csv, ner_dict, mid='_')
+
+
     pass
 
 if __name__ == '__main__':
