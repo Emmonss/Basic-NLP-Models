@@ -90,25 +90,10 @@ def get_pred_main(true_csv,pred_csv,ner_dict,mid='-'):
     return eval_dict,[all,preds,float(preds/all)]
 
 
-def eval():
-    # true_csv = pd.read_csv('../CRF/preds/weibo_test_gold.csv')
-    # pred_csv = pd.read_csv('../CRF/preds/weibo_test_pred.csv')
-    # ner_dict = load_pkl('../BiLSTM_CRF/models/weibo_ner_params.pkl')['train_tagset']
-    # print(ner_dict)
-    # res = get_pred_main(true_csv, pred_csv, ner_dict, mid='-')
-
-
-
-
-
-    pass
-
 if __name__ == '__main__':
     true_csv = pd.read_csv('../CRF/preds/clue_gold.csv')
     pred_csv = pd.read_csv('../CRF/preds/clue_pred.csv')
     ner_dict = load_pkl('../BiLSTM_CRF/models/clue_ner_params.pkl')['train_tagset']
     print(ner_dict)
     res = get_pred_main(true_csv, pred_csv, ner_dict, mid='_')
-
-
     pass
