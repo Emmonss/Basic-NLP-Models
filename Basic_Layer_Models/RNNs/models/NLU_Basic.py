@@ -17,7 +17,13 @@ class NLUModel:
 
     def load(self,model_path,custom_objects=None):
         self.model = load_model(model_path,custom_objects=custom_objects)
-        
+
+    def fit_val(self,X,Y,valid_data=None,epoch=5,batch_size=32):
+        self.history = self.model.fit(X,Y,validation_data=valid_data,epochs=epoch,batch_size=batch_size)
+
+    def fit_train(self, X, Y, val_split=0.1, epoch=5, batch_size=32):
+        self.history = self.model.fit(X, Y, validation_split=val_split, epochs=epoch, batch_size=batch_size)
+
     def get_opts(self,opt_names,lr):
         if opt_names == 'Adam':
             optim = Adam(learning_rate=lr)

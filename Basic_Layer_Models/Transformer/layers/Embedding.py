@@ -2,6 +2,7 @@ import os
 os.environ['TF_KERAS'] ="1"
 from tensorflow.keras import backend as K
 from tensorflow.keras.layers import Embedding as tf_embd
+
 class Embedding(tf_embd):
     '''
         拓展keras自带的embedding层
