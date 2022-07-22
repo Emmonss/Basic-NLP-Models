@@ -2,6 +2,8 @@ from Basic_Layer_Models.RNNs.models.NLU_Basic import NLUModel
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Dense,Input,Embedding,Bidirectional,LSTM
 import tensorflow as tf
+
+
 class BiLSTM(NLUModel):
     def __init__(self,
                  vocab_size,
