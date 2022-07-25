@@ -7,13 +7,21 @@ import numpy as np
 
 
 class Decoder(Model):
-    def __init__(self,vocab_size,embedding_dim,dec_units):
+    def __init__(self,vocab_size,embedding_dim,dec_units,batch_size=2):
         super(Decoder, self).__init__()
         self.dec_units = dec_units
         self.embedding = Embedding(vocab_size,embedding_dim)
-        self.lstm = LSTM(dec_units,return_sequences=True,
+
+        self.inputs = Input(shape=(1, embedding_dim), batch_size=batch_size)
+        self.lstm_ = LSTM(dec_units,return_sequences=True,
                          return_state=True,stateful=True,
                          name='decode_lstm')
+        lstm_out, hidden_state, cell_state = self.lstm_(self.inputs)
+
+        self.lstm = Model(
+                inputs=self.inputs,
+                outputs=[lstm_out, hidden_state, cell_state])
+
         self.fc = Dense(vocab_size)
         self.attn = Attention(units=self.dec_units,method='general')
 
@@ -47,14 +55,26 @@ class Decoder(Model):
         print("decoder_input_embeded:{}".format(np.shape(decoder_input_embeded)))
         #[batch_size,1,embed_num] -> [batch_size,1,hidden_units], [batch_size,hidden_units]
         print("decoder_input_init_layer")
-        print(self.lstm.states)
-        self.lstm.reset_states(states=[decoder_hidden,decoder_c])
-        print("decoder_input_after_layer")
-        print(self.lstm.states)
+        print(self.lstm_.states)
+        print('='*50)
 
+        decoder_outputs, decoder_hidden_1, state_c_1 = self.lstm(decoder_input_embeded)
+        print("decoder_outputs:{}".format(np.shape(decoder_hidden_1)))
+        print(decoder_outputs)
+        print("decoder_hidden:{}".format(np.shape(state_c_1)))
+        print(self.lstm_.states)
+
+
+        print('='*50)
+        self.lstm_.reset_states(states=[decoder_hidden, decoder_c])
+        print("decoder_input_after_layer")
+        print(self.lstm_.states)
+        #
         decoder_outputs, decoder_hidden, state_c = self.lstm(decoder_input_embeded)
         print("decoder_outputs:{}".format(np.shape(decoder_outputs)))
+        print(decoder_outputs)
         print("decoder_hidden:{}".format(np.shape(decoder_hidden)))
+        print(self.lstm_.states)
         # #[batch_size,hidden_units],[batch_size,encoder_max_len,hidden_units] -> [batch_size,encoder_max_len]
         # attn_weight = self.attn(decoder_hidden, encoder_outputs)
         #
@@ -85,9 +105,11 @@ if __name__ == '__main__':
     encoder_model = EncoderSingleLSTM(vocab_size=1000, embeddin_dim=512, hidden_units=4)
     encoder_outputs, encoder_hidden, encoder_c =encoder_model(inputs)
     print("encoder_outputs:{}".format(np.shape(encoder_outputs)))
+    print(encoder_outputs)
     print("encoder_hidden:{}".format(np.shape(encoder_hidden)))
-    print("encoder_hidden")
     print(encoder_hidden)
+    print(encoder_c)
+    print('='*100)
 
     Decoder(vocab_size=1000,embedding_dim=512,dec_units=4)(encoder_hidden,encoder_c,
                                                            target, encoder_outputs,)
