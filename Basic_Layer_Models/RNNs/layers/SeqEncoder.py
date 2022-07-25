@@ -1,6 +1,7 @@
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Embedding,LSTM,Layer,Input
 import numpy as np
+import tensorflow as tf
 
 class EncoderSingleLSTM(Model):
     def __init__(self,vocab_size,embeddin_dim,hidden_units):
@@ -16,12 +17,8 @@ class EncoderSingleLSTM(Model):
         return encoder_outputs, state_h, state_c
 
 if __name__ == '__main__':
-    inputs = Input(shape=(5,), name='inputs')
-    encoder_outputs, state_h, state_c = \
-        EncoderSingleLSTM(vocab_size=1000,embeddin_dim=512,hidden_units=300)(inputs)
+    inputs = tf.constant([[2, 5,1],
+                         [2, 5,1]])
 
-    model = Model(inputs, (encoder_outputs, state_h, state_c))
-    # t.build()
-    model.summary()
-    #test encoder model componment
-    pass
+    encoder_outputs, state_h, state_c = \
+        EncoderSingleLSTM(vocab_size=1000,embeddin_dim=512,hidden_units=4)(inputs)
