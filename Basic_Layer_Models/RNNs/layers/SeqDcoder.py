@@ -11,8 +11,8 @@ class Decoder(Model):
         super(Decoder, self).__init__()
         self.dec_units = dec_units
         self.embedding = Embedding(vocab_size,embedding_dim)
-        self.lstm = LSTM(dec_units,stateful=True,
-                         batch_size =(2,1,self.embedding),
+        self.lstm = LSTM(dec_units,return_sequences=True,
+                         return_state=True,stateful=True,
                          name='decode_lstm')
         self.fc = Dense(vocab_size)
         self.attn = Attention(units=self.dec_units,method='general')
