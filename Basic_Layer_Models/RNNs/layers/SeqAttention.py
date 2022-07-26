@@ -1,7 +1,6 @@
 import tensorflow as tf
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Dense,Input
-from Basic_Layer_Models.RNNs.layers.SeqEncoder import EncoderSingleLSTM
 import numpy as np
 
 
