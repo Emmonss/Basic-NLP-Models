@@ -38,3 +38,9 @@ class NLUModel:
         else:
             optim = SGD(learning_rate=lr)
         return optim
+
+    def build_model(self):
+        raise NotImplementedError
+
+    def compile_model(self):
+        raise NotImplementedError

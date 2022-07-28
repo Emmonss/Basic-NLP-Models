@@ -5,14 +5,15 @@ import tensorflow as tf
 
 class Encoder(Model):
     def __init__(self,vocab_size,embeddin_dim,hidden_units,
-                 mode='single',method ='concat'):
-        super(Encoder,self).__init__()
+                 mode='single',method ='concat',**kwargs):
+        super(Encoder,self).__init__(**kwargs)
         assert method in ['sum', 'concat'], "method error"
         assert mode in ['single', 'bio'], "mode error"
 
         self.mode = mode
         self.method= method
-        self.embeddin = Embedding(vocab_size,embeddin_dim,mask_zero=True)
+        self.embeddin = Embedding(vocab_size,embeddin_dim,mask_zero=True,name='encoder_embeddings')
+
         if self.mode == 'single':
             self.encoder_lstm = LSTM(hidden_units,return_sequences=True,
                                      return_state=True,name='encode_lstm')
@@ -28,7 +29,8 @@ class Encoder(Model):
             encoder_outputs, state_h_f, state_c_f,state_h_b,state_c_b = self.encoder_lstm(encoder_embed)
             state_h = tf.concat([state_h_f,state_h_b],axis=-1)
             state_c = tf.concat([state_c_f,state_c_b],axis=-1)
-        return encoder_outputs, state_h, state_c
+        encoder_states = [state_h,state_c]
+        return encoder_outputs, encoder_states
 
 
 if __name__ == '__main__':

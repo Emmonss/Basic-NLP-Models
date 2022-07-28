@@ -115,14 +115,14 @@ def get_words_label_data(path,
 if __name__ == '__main__':
     wordIndexDict,vocabSize,maxLen,sequenceLengths,tagSum,tagIndexDict,tag_set,\
     X,y = get_words_label_data('../data/Proessdata/weibo_train.csv')
-
-    pprint(tagIndexDict)
-    print(tag_set)
-    print(maxLen)
-
-    print(np.shape(X))
-    print(np.shape(y))
-    print(X[1])
-    print(y[1])
+    print(type(X))
+    # pprint(tagIndexDict)
+    # print(tag_set)
+    # print(maxLen)
+    #
+    # print(np.shape(X))
+    # print(np.shape(y))
+    # print(X[1])
+    # print(y[1])
     pass
     "saf"

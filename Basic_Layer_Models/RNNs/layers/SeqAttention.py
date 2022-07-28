@@ -5,8 +5,8 @@ import numpy as np
 
 
 class Attention(Model):
-    def __init__(self,units,method='general'):
-        super(Attention, self).__init__()
+    def __init__(self,units,method='general',**kwargs):
+        super(Attention, self).__init__(**kwargs)
         assert method in ['dot','general','concat','concat_diverse'],"attention method error"
 
         self.method = method

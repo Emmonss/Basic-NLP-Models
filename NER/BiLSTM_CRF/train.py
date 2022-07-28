@@ -6,6 +6,8 @@ from Basic_Layer_Models.RNNs.models.BiLSTM_CRF import BiLSTM_CRF
 from NER.DataProcess.data import get_words_label_data
 from NER.Utils.basic_utils import *
 
+
+
 gpus = tf.config.experimental.list_physical_devices('GPU')
 if gpus:
     try:

@@ -4,6 +4,7 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Dense,Input,Embedding,Bidirectional,LSTM
 import tensorflow as tf
 from Basic_Layer_Models.RNNs.layers.ConditionalRandomField import CRF
+f
 
 class BiLSTM_CRF(NLUModel):
     def __init__(self,
