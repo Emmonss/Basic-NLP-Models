@@ -82,10 +82,10 @@ class Seq2SeqAttention(NLUModel):
 
 
 if __name__ == '__main__':
-    seq_len = 10
-    vocab_size =10
+    seq_len = 5
+    vocab_size =20
     embed_dim = 100
-    hidden_units = 16
+    hidden_units = 8
     lr = 0.001
 
     model = Seq2SeqAttention(vocab_size=vocab_size,
@@ -95,11 +95,11 @@ if __name__ == '__main__':
                  lr=lr
                  )
 
-    target = np.array([[2]+[np.random.randint(1,vocab_size) for i in range(random.randint(int(seq_len/2),seq_len))],
-                       [2]+[np.random.randint(1,vocab_size) for i in range(random.randint(int(seq_len/2),seq_len))]])
+    target = np.array([[2]+[np.random.randint(3,vocab_size) for i in range(random.randint(int(seq_len/2),seq_len))],
+                       [2]+[np.random.randint(3,vocab_size) for i in range(random.randint(int(seq_len/2),seq_len))]])
 
-    inputs = np.array([[np.random.randint(1,vocab_size) for i in range(random.randint(int(seq_len/2),seq_len))],
-                       [np.random.randint(1,vocab_size) for i in range(random.randint(int(seq_len/2),seq_len))]])
+    inputs = np.array([[np.random.randint(3,vocab_size) for i in range(random.randint(int(seq_len/2),seq_len))],
+                       [np.random.randint(3,vocab_size) for i in range(random.randint(int(seq_len/2),seq_len))]])
     # target = np.array([[2, 8, 7, 5, 3],
     #                    [2, 7, 1, 2]])
     # inputs = np.array([[2, 3, 1],
