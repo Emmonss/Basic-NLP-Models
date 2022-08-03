@@ -3,9 +3,9 @@
 '''
 from bert4keras import tokenizers
 
-import jieba
+import jieba,re
 import unicodedata
-from Basic_Layer_Models.RNNs.utils.snippets import truncate_sequences,is_string
+from Basic_Layer_Models.RNNs.utils.snippets import truncate_sequences,is_string,is_py2
 
 def load_vocab(dict_path, encoding='utf-8', simplified=False,startwith=None):
     token_dict = {}
@@ -171,7 +171,114 @@ class Tokenizer(TokenizerBase):
             except:
                 pass
 
+    def token_to_id(self,token):
+        '''
+        :param token:
+        :return:
+        '''
+        return self._token_dict.get(token,self._token_unk_id)
 
+    def id_to_token(self,i):
+        '''
+        :param i:
+        :return:
+        '''
+        return self._token_dict_inv[i]
+
+    def decode(self,ids, tokens=None):
+        '''
+        :param ids:
+        :param tokens:
+        :return:
+        '''
+        tokens = tokens or self.id_to_tokens(ids)
+        tokens = [token for token in tokens if not self._is_special(token)]
+
+        text,flag = '', False
+        for i, token in enumerate(tokens):
+            if token[:2] == '##':
+                text += tokens[:2]
+            elif len(token) == 1 and self._is_cjk_character(token):
+                text+=tokens
+            elif len(token) == 1 and self._is_punctuation(token):
+                text+=tokens
+            elif i>0 and self._is_cjk_character(text[-1]):
+                text += token
+            else:
+                text += ' '
+                text += token
+
+        text = re.sub(' +',' ',text)
+        text = re.sub('\' (re|m|s|t|ve|d|ll) ', '\'\\1 ', text)
+        punctuation = self._cjk_punctuation() + '+-/={(<['
+        punctuation_regex = '|'.join([re.escape(p) for p in punctuation])
+        punctuation_regex = '(%s) ' % punctuation_regex
+        text = re.sub(punctuation_regex, '\\1', text)
+        text = re.sub('(\d\.) (\d)', '\\1\\2', text)
+
+        return text.strip()
+
+    def _tokenize(self,text,pre_tokenize=True):
+        '''
+        :param text:
+        :param pre_tokenize:
+        :return:
+        '''
+        if self._do_lower_case:
+            # if is_py2:
+            #     text = unicode(text)
+            text = text.lower()
+            text = unicodedata.normalize('NFD',text)
+            text = ''.join([
+                ch for ch in text if unicodedata.category(ch) != 'Mn'
+            ])
+
+        if pre_tokenize and self._pre_tokenizer is not None:
+            tokens =[]
+            for token in self._pre_tokenizer(text):
+                if token in self._token_dict:
+                    tokens.append(token)
+                else:
+                    tokens.extend((self._tokenize(text,False)))
+            return tokens
+
+        spaced = ''
+        for ch in text:
+            if self._is_punctuation(ch) or self._is_cjk_character(ch):
+                spaced += ' ' + ch + ' '
+            elif self._is_space(ch):
+                spaced += ' '
+            elif ord(ch) == 0 or ord(ch) == 0xfffd or self._is_control(ch):
+                continue
+            else:
+                spaced+=ch
+        tokens = []
+        for word in spaced.strip().split():
+            tokens.extend(self._word_piece_tokenize(word))
+
+        return tokens
+
+    def _word_piece_tokenize(self,word):
+        if len (word) > self._word_maxlen:
+            return [word]
+
+        tokens, start, end = [], 0, 0
+        while start <len(word):
+            end = len(word)
+            while end > start:
+                sub = word[start:end]
+                if start >0:
+                    sub = '##' +sub
+                if sub in self._token_dict:
+                    break
+                end -=1
+            if start==end:
+                return word
+            else:
+                tokens.append(sub)
+                start = end
+
+        return tokens
 
 
     @staticmethod
