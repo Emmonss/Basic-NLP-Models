@@ -65,7 +65,7 @@ class TokenizerBase(object):
         self._token_start = token_start
         self._token_end = token_end
         self._pre_tokenizer = pred_tokenizer
-        self._token_translate = token_translate
+        self._token_translate = token_translate or {}
         self._token_translate_inv = {
             v: k for k, v in self._token_translate.items()
         }
@@ -158,6 +158,8 @@ class Tokenizer(TokenizerBase):
                  **kwargs):
         super(Tokenizer, self).__init__(**kwargs)
 
+        if is_string(token_dict):
+            token_dict = load_vocab(token_dict)
         self._do_lower_case=do_lower_case
         self._word_maxlen=word_maxlen
         self._token_dict = token_dict
@@ -251,7 +253,7 @@ class Tokenizer(TokenizerBase):
             elif ord(ch) == 0 or ord(ch) == 0xfffd or self._is_control(ch):
                 continue
             else:
-                spaced+=ch
+                spaced += ch
         tokens = []
         for word in spaced.strip().split():
             tokens.extend(self._word_piece_tokenize(word))
