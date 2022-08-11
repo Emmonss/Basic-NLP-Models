@@ -1,8 +1,18 @@
 from Basic_Layer_Models.RNNs.utils.Tokenize import Tokenizer
+import jieba
+
 
 dict_path = './processed_data/vocab.txt'
+token_path = './processed_data/token_dict.txt'
+jieba.load_userdict(token_path)
 
-tokenizer = Tokenizer(token_dict=dict_path,do_lower_case=True)
+
+def pre_token(text):
+    return jieba.lcut(text)
+
+tokenizer = Tokenizer(token_dict=dict_path,do_lower_case=True,pred_tokenizer=pre_token)
+
+
 
 
 
@@ -27,6 +37,9 @@ if __name__ == '__main__':
     print('init'.center(50, '-'))
     print(token_encoder)
     print(token_decoder)
+    print('pre_token'.center(50, '-'))
+    print(pre_token(encode_text))
+    print(pre_token(decode_text))
     print('encode'.center(50, '-'))
     print(token_encoder)
     print(token_decoder)
