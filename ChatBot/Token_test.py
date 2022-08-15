@@ -14,8 +14,6 @@ tokenizer = Tokenizer(token_dict=dict_path,do_lower_case=True,pred_tokenizer=pre
 
 
 
-
-
 def sentence_encode(encode_text,decode_text):
     token_encoder,seg_encoder = tokenizer.encode(encode_text)
     token_decoder,seg_decoder = tokenizer.encode(decode_text)
