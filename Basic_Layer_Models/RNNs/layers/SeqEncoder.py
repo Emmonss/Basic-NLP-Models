@@ -2,6 +2,8 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Embedding,LSTM,Bidirectional
 import numpy as np
 import tensorflow as tf
+from tensorflow.python.keras.preprocessing.sequence import pad_sequences
+
 
 class Encoder(Model):
     def __init__(self,vocab_size,embeddin_dim,hidden_units,
@@ -34,12 +36,20 @@ class Encoder(Model):
 
 
 if __name__ == '__main__':
-    inputs = tf.constant([[2, 5,1],
-                         [2, 5,1]])
+    seq_len = 5
+    inputs = np.array([[2, 3, 1],
+                       [4, 3]])
 
-    encoder_outputs, state_h, state_c = \
-        Encoder(vocab_size=1000,embeddin_dim=512,hidden_units=4,mode='bio')(inputs)
+    inputs = pad_sequences(inputs, value=0, padding='post', maxlen=seq_len)
 
+    encoder_model = Encoder(vocab_size=10,
+                            embeddin_dim=32,
+                            hidden_units=4,
+                            mode='single'
+                            )
+    encoder_outputs, encoder_states = encoder_model(inputs)
+
+    print("inputs:{}".format(np.shape(inputs)))
     print("encoder_outputs:{}".format(np.shape(encoder_outputs)))
-    print("state_h:{}".format(np.shape(state_h)))
-    print("state_c:{}".format(np.shape(state_c)))
+    print("state_h:{}".format(np.shape(encoder_states[0])))
+    print("state_c:{}".format(np.shape(encoder_states[1])))

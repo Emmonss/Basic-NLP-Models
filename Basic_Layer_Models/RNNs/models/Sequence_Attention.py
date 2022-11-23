@@ -81,11 +81,24 @@ class Seq2SeqAttention(NLUModel):
 
 
 
+def simple_sample(vocab_size,seq_len,batch_size=10):
+    target=[]
+    inputs = []
+    for item in range(batch_size):
+        target.append([2]+[np.random.randint(3,vocab_size)
+                        for i in range(random.randint(int(seq_len/2),seq_len))])
+        inputs.append([np.random.randint(3,vocab_size)
+                        for i in range(random.randint(int(seq_len/2),seq_len))])
+    target = pad_sequences(target, value=0, padding='post', maxlen=seq_len + 1)
+    inputs = pad_sequences(inputs, value=0, padding='post', maxlen=seq_len)
+    return inputs,target
+
+
 if __name__ == '__main__':
-    seq_len = 5
-    vocab_size =20
+    seq_len =5
+    vocab_size =10
     embed_dim = 100
-    hidden_units = 8
+    hidden_units = 32
     lr = 0.001
 
     model = Seq2SeqAttention(vocab_size=vocab_size,
@@ -95,23 +108,16 @@ if __name__ == '__main__':
                  lr=lr
                  )
 
-    target = np.array([[2]+[np.random.randint(3,vocab_size) for i in range(random.randint(int(seq_len/2),seq_len))],
-                       [2]+[np.random.randint(3,vocab_size) for i in range(random.randint(int(seq_len/2),seq_len))]])
-
-    inputs = np.array([[np.random.randint(3,vocab_size) for i in range(random.randint(int(seq_len/2),seq_len))],
-                       [np.random.randint(3,vocab_size) for i in range(random.randint(int(seq_len/2),seq_len))]])
+    inputs,target = simple_sample(vocab_size,seq_len)
     # target = np.array([[2, 8, 7, 5, 3],
     #                    [2, 7, 1, 2]])
     # inputs = np.array([[2, 3, 1],
     #                    [4, 3]])
 
-    target = pad_sequences(target, value=0, padding='post', maxlen=seq_len + 1)
-    inputs = pad_sequences(inputs, value=0, padding='post', maxlen=seq_len)
 
-
-
+    #
     _, pred_output = model.evaluate(inputs)
-
+    print("init_pred_output:\n{}".format(pred_output))
 
     #Y是target去掉加上的<start>列，不然计算acc和loss是维度不匹配的
     model.fit_val(X=[inputs,target],Y=target[:,1:],epoch=1000,batch_size=2)
@@ -122,7 +128,6 @@ if __name__ == '__main__':
     print("target:{}".format(np.shape(target[:,1:])))
     print(target[:,1:])
 
-    print("init_pred_output:\n{}".format(pred_output))
     _, pred_output = model.evaluate(inputs)
     print("trained_pred_output:\n{}".format(pred_output))
 

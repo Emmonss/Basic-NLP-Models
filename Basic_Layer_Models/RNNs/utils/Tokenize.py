@@ -237,12 +237,12 @@ class Tokenizer(TokenizerBase):
 
         if pre_tokenize and self._pre_tokenizer is not None:
             tokens =[]
-            print("_pre_tokenizer:{}".format(self._pre_tokenizer(text)))
+            # print("_pre_tokenizer:{}".format(self._pre_tokenizer(text)))
             for token in self._pre_tokenizer(text):
                 if token in self._token_dict:
                     tokens.append(token)
                 else:
-                    tokens.extend((self._tokenize(text,False)))
+                    tokens.extend((self._tokenize(token,False)))
             return tokens
 
         spaced = ''
