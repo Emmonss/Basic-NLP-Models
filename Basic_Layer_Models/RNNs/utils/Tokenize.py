@@ -154,7 +154,7 @@ class Tokenizer(TokenizerBase):
                  token_dict,
                  do_lower_case=False,
                  word_maxlen=100,
-                 init_tokens=['pad','unk','mask','start','end'],
+                 init_tokens=['pad','unk','start','end','mask'],
                  **kwargs):
         super(Tokenizer, self).__init__(**kwargs)
 

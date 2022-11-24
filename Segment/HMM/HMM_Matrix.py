@@ -162,7 +162,7 @@ def get_pku_data_hmm_save():
 ################################################################################################
 if __name__ == '__main__':
     get_msr_data_hmm_save()
-    get_pku_data_hmm_save()
+    # get_pku_data_hmm_save()
 
     # h.load_from_path(model_path='./matrixs/msr_hmm.pkl')
     # pass

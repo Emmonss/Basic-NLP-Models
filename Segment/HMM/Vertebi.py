@@ -4,14 +4,14 @@ sys.path.append('../')
 import numpy as np
 from Segment.HMM.HMM_Matrix import Make_HMM_Matrx
 
-# def segment(sent,tag):
-#     res = ''
-#     for i in range(len(sent)):
-#         if tag[i] == 'S' or tag[i] == 'E':
-#             res+=sent[i]+" "
-#         else:
-#             res+=sent[i]
-#     return res
+def segment(sent,tag):
+    res = ''
+    for i in range(len(sent)):
+        if tag[i] == 'S' or tag[i] == 'E':
+            res+=sent[i]+" "
+        else:
+            res+=sent[i]
+    return res
 
 class Vertebi():
     def __init__(self,mode='train',model_path=None,data_path = None):
@@ -79,9 +79,9 @@ class Vertebi():
     def get_segment_tags(self,words):
         lastmaxpro, maxpre = self._forward(words)
         tag = self._backword(lastmaxpro, maxpre)
-        return tag
-        # res = segment(sequence,tag)
-        # return tag,res
+        # return tag
+        res = segment(sequence,tag)
+        return tag,res
 
 if __name__ == '__main__':
     sequence = '“北京健康宝”是一个方便个人查询自身防疫相关健康状态的小程序，所有在京及进（返）京人员均可使用。通过百度APP、微信、支付宝，'

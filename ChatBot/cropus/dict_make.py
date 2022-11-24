@@ -5,30 +5,12 @@
         清理后的初始单字字典为vocab_pure.txt
 '''
 
-import jieba
-import os
+import jieba,os
 
 from tqdm import tqdm
+from ChatBot.utils import read_cropus,read_cropus_list,write_dict
 
 
-root_dict_path = '../processed_data/vocab_pure.txt'
-init_dict_flag = True
-save_path=True
-
-
-
-def read_cropus(path):
-    res = []
-    with open(path,'r',encoding='utf-8') as fr:
-        for item in fr:
-            res.append(item.strip())
-    return res
-
-def read_cropus_list(path_list):
-    res = []
-    for path in path_list:
-        res.extend(read_cropus(path))
-    return res
 
 def make_dict(input_path_list,max_word_len=6):
     init_dict = []
@@ -56,15 +38,6 @@ def make_dict(input_path_list,max_word_len=6):
     # print (f_dict[:10])
     return f_dict
 
-def write_dict(dict_list,path):
-    assert isinstance(dict_list,list),"it should be a list type"
-    fw = open(path,'w',encoding='utf-8')
-    for item in dict_list:
-        if len(item)>0:
-            fw.write(item.strip()+"\n")
-    fw.close()
-
-
 ###############################################################################
 def get_xiaohuangji_dict(in_path,out_path):
     print(in_path)
@@ -85,16 +58,38 @@ def get_nplcc_dict(in_path,out_path):
     write_dict(dict_list, out_path)
     pass
 
+def get_di_dict(in_path,out_path):
+    print(in_path)
+    data_path_list = []
+    for item in os.listdir(in_path):
+        data_path_list.append(os.path.join(in_path, item))
+    dict_list = make_dict(data_path_list)
+    print("dict_len：{}".format(len(dict_list)))
+    write_dict(dict_list, out_path)
+    pass
+
 ###############################################################################
 
+root_dict_path = '../processed_data/vocab_pure.txt'
+init_dict_flag = True
+save_path=True
+
 if __name__ == '__main__':
-    xiaohuangji_data_path = './xiaohuangji/data'
-    nlpcc_data_path = './nlpcc/data'
-    xiaohuangji_final_dict_path = '../processed_data/xhj_dict.txt'
-    nlpcc_final_dict_path = '../processed_data/nlpcc_dict.txt'
     ###############################################################################
-    get_xiaohuangji_dict(xiaohuangji_data_path,
-                         xiaohuangji_final_dict_path)
+    # xiaohuangji_data_path = './xiaohuangji/data'
+    # xiaohuangji_final_dict_path = '../processed_data/xhj_dict.txt'
+    # get_xiaohuangji_dict(xiaohuangji_data_path,
+    #                      xiaohuangji_final_dict_path)
+    ###############################################################################
+    # nlpcc_data_path = './nlpcc/data'
+    # nlpcc_final_dict_path = '../processed_data/nlpcc_dict.txt'
     # get_nplcc_dict(nlpcc_data_path,
     #                      nlpcc_final_dict_path)
+    ###############################################################################
+    di_data_path = './di'
+    di_final_dict_path = '../processed_data/dt_dict.txt'
+    get_di_dict(di_data_path,
+                         di_final_dict_path)
+
+    ###############################################################################
     pass
