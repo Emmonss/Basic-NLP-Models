@@ -76,20 +76,20 @@ save_path=True
 
 if __name__ == '__main__':
     ###############################################################################
-    # xiaohuangji_data_path = './xiaohuangji/data'
-    # xiaohuangji_final_dict_path = '../processed_data/xhj_dict.txt'
-    # get_xiaohuangji_dict(xiaohuangji_data_path,
-    #                      xiaohuangji_final_dict_path)
+    xiaohuangji_data_path = './xiaohuangji/data'
+    xiaohuangji_final_dict_path = '../processed_data/xhj_dict.txt'
+    get_xiaohuangji_dict(xiaohuangji_data_path,
+                         xiaohuangji_final_dict_path)
     ###############################################################################
-    # nlpcc_data_path = './nlpcc/data'
-    # nlpcc_final_dict_path = '../processed_data/nlpcc_dict.txt'
-    # get_nplcc_dict(nlpcc_data_path,
-    #                      nlpcc_final_dict_path)
+    nlpcc_data_path = './nlpcc/data'
+    nlpcc_final_dict_path = '../processed_data/nlpcc_dict.txt'
+    get_nplcc_dict(nlpcc_data_path,
+                         nlpcc_final_dict_path)
     ###############################################################################
-    di_data_path = './di'
-    di_final_dict_path = '../processed_data/dt_dict.txt'
-    get_di_dict(di_data_path,
-                         di_final_dict_path)
+    # di_data_path = './di'
+    # di_final_dict_path = '../processed_data/dt_dict.txt'
+    # get_di_dict(di_data_path,
+    #                      di_final_dict_path)
 
     ###############################################################################
     pass

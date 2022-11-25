@@ -1,7 +1,6 @@
 
 
-import jieba
-jieba
+import jieba,re
 
 
 def pre_token(text):
@@ -28,3 +27,11 @@ def write_dict(dict_list,path):
         if len(item)>0:
             fw.write(item.strip()+"\n")
     fw.close()
+
+
+def is_string(item):
+    return isinstance(item,str)
+
+def do_lower_reg(item):
+    reg = "[^0-9A-Za-z\u4e00-\u9fa5]"
+    return re.sub(reg, '', item).lower()
