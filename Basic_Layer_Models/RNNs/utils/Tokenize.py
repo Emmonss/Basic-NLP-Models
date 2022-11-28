@@ -165,7 +165,7 @@ class Tokenizer(TokenizerBase):
         self._token_dict = token_dict
         self._token_dict_inv = {v: k for k, v in token_dict.items()}
         self._vocab_size = len(self._token_dict)
-
+        self.test()
         for token in init_tokens:
             try:
                 _token_id = token_dict[getattr(self,'_token_%s' % token)]
