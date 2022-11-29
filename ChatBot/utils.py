@@ -6,7 +6,6 @@ import jieba,re
 def pre_token(text):
     return jieba.lcut(text)
 
-
 def read_cropus(path):
     res = []
     with open(path,'r',encoding='utf-8') as fr:

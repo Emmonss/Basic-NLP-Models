@@ -3,7 +3,7 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Input,Lambda
 from tensorflow_addons.seq2seq.loss import sequence_loss
 
-from Basic_Layer_Models.RNNs.models.NLU_Basic import NLUModel
+from Basic_Layer_Models.RNNs.models.NLUBasic import NLUModel
 from Basic_Layer_Models.RNNs.layers.SeqEncoder import Encoder
 from Basic_Layer_Models.RNNs.layers.SeqDcoder import Decoder
 
@@ -11,6 +11,14 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 import tensorflow as tf
 import numpy as np
 import random
+
+gpus = tf.config.experimental.list_physical_devices('GPU')
+if gpus:
+    try:
+        for gpu in gpus:
+            tf.config.experimental.set_memory_growth(gpu,True)
+    except RuntimeError as e:
+        print(e)
 
 class Seq2SeqAttention(NLUModel):
     def __init__(self,
@@ -22,6 +30,7 @@ class Seq2SeqAttention(NLUModel):
                  opt = 'Adam',
                  encoder_mode = 'bio',
                  encoder_method = 'concat',
+                 teach_forcing_ran=0.5
                  ):
         super(Seq2SeqAttention, self).__init__()
 
@@ -31,6 +40,7 @@ class Seq2SeqAttention(NLUModel):
         self.encoder_units = encoder_units
         self.encoder_mode = encoder_mode
         self.encoder_method = encoder_method
+        self.teach_forcing_ran = teach_forcing_ran
         if encoder_mode == 'bio' and encoder_method == 'concat':
             self.decoder_units = 2 * self.encoder_units
         else:
@@ -52,7 +62,8 @@ class Seq2SeqAttention(NLUModel):
                                  embedding_dim=self.embeding_dim,
                                  dec_units=self.decoder_units,
                                  seq_maxlen=self.max_sent_len+1,
-                                 name='Decoder_Layer')
+                                 name='Decoder_Layer',
+                                 teach_forcing_ran=self.teach_forcing_ran)
 
 
         encoder_outputs, encoder_states = self.encoder_layer(encoder_inputs)
@@ -79,6 +90,10 @@ class Seq2SeqAttention(NLUModel):
         decoder_outputs, pred_output = self.decoder_layer.evaluate(encoder_outputs, encoder_states)
         return decoder_outputs, pred_output
 
+    # def get_config(self):
+    #     config = super(Seq2SeqAttention, self).get_config().copy()
+    #     return config
+
 
 
 def simple_sample(vocab_size,seq_len,batch_size=10):
@@ -95,7 +110,7 @@ def simple_sample(vocab_size,seq_len,batch_size=10):
 
 
 if __name__ == '__main__':
-    seq_len =5
+    seq_len =10
     vocab_size =10
     embed_dim = 100
     hidden_units = 32
@@ -113,22 +128,34 @@ if __name__ == '__main__':
     #                    [2, 7, 1, 2]])
     # inputs = np.array([[2, 3, 1],
     #                    [4, 3]])
-
-
+    print("input token shape:{}".format(np.shape(inputs)))
+    print("target token shape:{}".format(np.shape(target)))
+    print("inputs:{}".format(np.shape(inputs)))
+    print(inputs)
     #
     _, pred_output = model.evaluate(inputs)
     print("init_pred_output:\n{}".format(pred_output))
 
     #Y是target去掉加上的<start>列，不然计算acc和loss是维度不匹配的
-    model.fit_val(X=[inputs,target],Y=target[:,1:],epoch=1000,batch_size=2)
+    model.fit_val(X=[inputs,target],Y=target[:,1:],epoch=100,batch_size=2)
 
-    print("inputs:{}".format(np.shape(inputs)))
-    print(inputs)
+
 
     print("target:{}".format(np.shape(target[:,1:])))
     print(target[:,1:])
 
     _, pred_output = model.evaluate(inputs)
     print("trained_pred_output:\n{}".format(pred_output))
+    model.save_weights(model_path='./',model_name='test')
+
+    model2 = Seq2SeqAttention(vocab_size=vocab_size,
+                             embeding_dim=embed_dim,
+                             max_sent_len=seq_len,
+                             encoder_units=hidden_units,
+                             lr=lr
+                             )
+    model2.load_weights(model_path='./',model_name='test')
+    _, pred_output = model2.evaluate(inputs)
+    print("trained_pred_output2:\n{}".format(pred_output))
 
     pass

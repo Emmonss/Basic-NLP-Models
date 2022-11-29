@@ -34,6 +34,14 @@ class Encoder(Model):
         encoder_states = [state_h,state_c]
         return encoder_outputs, encoder_states
 
+    def get_config(self):
+        config = {"mode": self.mode,
+                  "method": self.method}
+        base_config = super(Encoder, self).get_config()
+        return dict(list(base_config.items()) + list(config.items()))
+
+
+
 
 if __name__ == '__main__':
     seq_len = 5

@@ -110,6 +110,11 @@ class Attention(Model):
         attention_weight = tf.nn.softmax(attention_weight, axis=-1)
         return attention_weight
 
+    def get_config(self):
+        config = {"method": self.method}
+        base_config = super(Attention, self).get_config()
+        return dict(list(base_config.items()) + list(config.items()))
+
 
 
 if __name__ == '__main__':

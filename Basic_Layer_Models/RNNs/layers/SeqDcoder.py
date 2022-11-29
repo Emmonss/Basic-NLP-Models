@@ -13,7 +13,7 @@ class Decoder(Model):
     def __init__(self,vocab_size,embedding_dim,
                  dec_units,seq_maxlen,
                  att_mode = 'general',
-                 teach_forcing_ran =1,
+                 teach_forcing_ran =0.5,
                  **kwargs):
         super(Decoder, self).__init__(**kwargs)
         self.dec_units = dec_units
@@ -141,6 +141,14 @@ class Decoder(Model):
         pred_output = tf.argmax(decoder_outputs,axis=-1)
 
         return decoder_outputs,pred_output
+
+    def get_config(self):
+        config = {"dec_units": self.dec_units,
+                  "seq_maxlen": self.seq_maxlen,
+                  "vocab_size": self.vocab_size,
+                  "teach_forcing_ran": self.seq_maxlen}
+        base_config = super(Decoder, self).get_config()
+        return dict(list(base_config.items()) + list(config.items()))
 
 
 
