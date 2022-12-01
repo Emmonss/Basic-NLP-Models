@@ -116,14 +116,14 @@ class Decoder(Model):
 
         return decoder_outputs_t,[decoder_hidden, decoder_c]
 
-    def evaluate(self, encoder_outputs, encoder_states):
+    def evaluate(self, encoder_outputs, encoder_states,sta_idx=2):
         decoder_states = encoder_states
 
         #获得输入的batch
         batch_size=np.shape(encoder_outputs)[0]
 
         # pred 的输入也就只有一维，就是开始的<start>
-        decoder_input = tf.expand_dims([2]*batch_size, axis=-1)
+        decoder_input = tf.expand_dims([sta_idx]*batch_size, axis=-1)
 
         #按照没有teaching_forcing来解码
         all_outputs = []

@@ -34,3 +34,6 @@ def is_string(item):
 def do_lower_reg(item):
     reg = "[^0-9A-Za-z\u4e00-\u9fa5]"
     return re.sub(reg, '', item).lower()
+
+def get_max_from_list(item_list):
+    return max(item_list)

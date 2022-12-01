@@ -31,6 +31,12 @@ class DialogCodeTrans:
         encode_text = self.tokenizer.decoder(token_list)
         return encode_text
 
+    def predict_encode(self,encode_text):
+        token_encoder = [self.tokenizer.encode(encode_text)]
+        token_input_list = pad_sequences(token_encoder, value=self.tokenizer._token_pad_id,
+                                         padding='post', maxlen=self.sent_maxlen)
+        return np.array(token_input_list)
+
     def sent_2_idx(self,input_path,target_path):
         if not os.path.exists(input_path) or not os.path.exists(target_path):
             raise ValueError("the dialog path is not exists")
@@ -52,8 +58,6 @@ class DialogCodeTrans:
         return token_input_list,token_target_list
 
     def idx_2_sent(self,decoder_list):
-        if not isinstance(decoder_list,np.ndarray):
-            raise ValueError("decoder_list should be numpy array")
         return [self._segment_decode(item) for item in decoder_list]
 
 
@@ -61,7 +65,6 @@ class DialogCodeTrans:
 
 if __name__ == '__main__':
     dict_path = './processed_data/vocab_pure.txt'
-
     in_path = './cropus/di/input_test.txt'
     ou_path = './cropus/di/output_test.txt'
     sent_max_len = 15

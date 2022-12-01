@@ -30,7 +30,8 @@ class Seq2SeqAttention(NLUModel):
                  opt = 'Adam',
                  encoder_mode = 'bio',
                  encoder_method = 'concat',
-                 teach_forcing_ran=0.5
+                 teach_forcing_ran=0.5,
+                 mode='train'
                  ):
         super(Seq2SeqAttention, self).__init__()
 
@@ -41,6 +42,7 @@ class Seq2SeqAttention(NLUModel):
         self.encoder_mode = encoder_mode
         self.encoder_method = encoder_method
         self.teach_forcing_ran = teach_forcing_ran
+        self.mode=mode
         if encoder_mode == 'bio' and encoder_method == 'concat':
             self.decoder_units = 2 * self.encoder_units
         else:
@@ -76,7 +78,8 @@ class Seq2SeqAttention(NLUModel):
         self.model.compile(optimizer=self.opt,
                            loss=self.loss_function,
                            metrics={'Decoder_Layer':'acc'})
-        self.model.summary()
+        if (self.mode=='train'):
+            self.model.summary()
 
     def loss_function(self,y_true, y_pred):
         #target 要去掉<start>标签
@@ -88,7 +91,7 @@ class Seq2SeqAttention(NLUModel):
     def evaluate(self,inputs):
         encoder_outputs, encoder_states = self.encoder_layer(inputs)
         decoder_outputs, pred_output = self.decoder_layer.evaluate(encoder_outputs, encoder_states)
-        return decoder_outputs, pred_output
+        return decoder_outputs, list(np.array(pred_output))
 
     # def get_config(self):
     #     config = super(Seq2SeqAttention, self).get_config().copy()
@@ -137,7 +140,7 @@ if __name__ == '__main__':
     print("init_pred_output:\n{}".format(pred_output))
 
     #Y是target去掉加上的<start>列，不然计算acc和loss是维度不匹配的
-    model.fit_val(X=[inputs,target],Y=target[:,1:],epoch=100,batch_size=2)
+    # model.fit_val(X=[inputs,target],Y=target[:,1:],epoch=10,batch_size=2)
 
 
 
@@ -152,10 +155,11 @@ if __name__ == '__main__':
                              embeding_dim=embed_dim,
                              max_sent_len=seq_len,
                              encoder_units=hidden_units,
-                             lr=lr
+                             lr=lr,
+                             mode='val'
                              )
     model2.load_weights(model_path='./',model_name='test')
-    _, pred_output = model2.evaluate(inputs)
+    _, pred_output = model2.evaluate(np.array([inputs[0]]))
     print("trained_pred_output2:\n{}".format(pred_output))
 
     pass
