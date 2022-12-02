@@ -22,11 +22,11 @@ if gpus:
 
 class Seq2SeqAttention(NLUModel):
     def __init__(self,
-                 vocab_size,
                  embeding_dim,
                  max_sent_len,
                  encoder_units,
                  lr,
+                 tokenizer,
                  opt = 'Adam',
                  encoder_mode = 'bio',
                  encoder_method = 'concat',
@@ -35,7 +35,8 @@ class Seq2SeqAttention(NLUModel):
                  ):
         super(Seq2SeqAttention, self).__init__()
 
-        self.vocab_size = vocab_size
+        self.vocab_size = tokenizer.vocab_size
+        self.tokenizer = tokenizer
         self.embeding_dim = embeding_dim
         self.max_sent_len = max_sent_len
         self.encoder_units = encoder_units
@@ -54,13 +55,15 @@ class Seq2SeqAttention(NLUModel):
     def build_model(self):
         encoder_inputs = Input(shape=(self.max_sent_len,), name='encoder_inputs')
         decoder_inputs = Input(shape=(self.max_sent_len+1,), name='decoder_inputs')
-        self.encoder_layer = Encoder(vocab_size=self.vocab_size,
+        self.encoder_layer = Encoder(
+                                vocab_size=self.vocab_size,
                                 embeddin_dim=self.embeding_dim,
                                 hidden_units=self.encoder_units,
                                 mode=self.encoder_mode,
                                 method=self.encoder_method,
                                 name='Encoder_Layer')
-        self.decoder_layer = Decoder(vocab_size=self.vocab_size,
+        self.decoder_layer = Decoder(
+                                 tokenizer=self.tokenizer,
                                  embedding_dim=self.embeding_dim,
                                  dec_units=self.decoder_units,
                                  seq_maxlen=self.max_sent_len+1,
@@ -76,15 +79,22 @@ class Seq2SeqAttention(NLUModel):
 
     def compile_model(self):
         self.model.compile(optimizer=self.opt,
-                           loss=self.loss_function,
-                           metrics={'Decoder_Layer':'acc'})
+                           loss=self.loss_function)
         if (self.mode=='train'):
             self.model.summary()
 
     def loss_function(self,y_true, y_pred):
-        #target 要去掉<start>标签
-        # mask掉<pad>,去除<pad>对于loss的干扰 <pad>默认为0
-        mask = tf.cast(tf.math.logical_not(tf.math.equal(y_true, 0)), dtype=tf.float32)
+        #target 要去掉<start>标签(输入自动去除）
+        # mask掉<pad>和<end>,去除<pad>,<end>对于loss的干扰
+        # mask = tf.cast(tf.math.logical_not(
+        #     tf.math.logical_or(
+        #         tf.math.equal(y_true, self.tokenizer._token_pad_id),
+        #         tf.math.equal(y_true, self.tokenizer._token_end_id)
+        # )), dtype=tf.float32)
+        mask = tf.cast(tf.math.logical_not(
+                tf.math.equal(y_true, self.tokenizer._token_pad_id))
+                , dtype=tf.float32)
+        # mask = tf.ones_like(y_true, dtype=tf.float32)
         loss = sequence_loss(logits=y_pred, targets=y_true, weights=mask)
         return loss
 
@@ -113,53 +123,17 @@ def simple_sample(vocab_size,seq_len,batch_size=10):
 
 
 if __name__ == '__main__':
-    seq_len =10
-    vocab_size =10
-    embed_dim = 100
-    hidden_units = 32
-    lr = 0.001
-
-    model = Seq2SeqAttention(vocab_size=vocab_size,
-                 embeding_dim=embed_dim,
-                 max_sent_len=seq_len,
-                 encoder_units=hidden_units,
-                 lr=lr
-                 )
-
-    inputs,target = simple_sample(vocab_size,seq_len)
-    # target = np.array([[2, 8, 7, 5, 3],
-    #                    [2, 7, 1, 2]])
-    # inputs = np.array([[2, 3, 1],
-    #                    [4, 3]])
-    print("input token shape:{}".format(np.shape(inputs)))
-    print("target token shape:{}".format(np.shape(target)))
-    print("inputs:{}".format(np.shape(inputs)))
-    print(inputs)
-    #
-    _, pred_output = model.evaluate(inputs)
-    print("init_pred_output:\n{}".format(pred_output))
-
-    #Y是target去掉加上的<start>列，不然计算acc和loss是维度不匹配的
-    # model.fit_val(X=[inputs,target],Y=target[:,1:],epoch=10,batch_size=2)
-
-
-
-    print("target:{}".format(np.shape(target[:,1:])))
-    print(target[:,1:])
-
-    _, pred_output = model.evaluate(inputs)
-    print("trained_pred_output:\n{}".format(pred_output))
-    model.save_weights(model_path='./',model_name='test')
-
-    model2 = Seq2SeqAttention(vocab_size=vocab_size,
-                             embeding_dim=embed_dim,
-                             max_sent_len=seq_len,
-                             encoder_units=hidden_units,
-                             lr=lr,
-                             mode='val'
-                             )
-    model2.load_weights(model_path='./',model_name='test')
-    _, pred_output = model2.evaluate(np.array([inputs[0]]))
-    print("trained_pred_output2:\n{}".format(pred_output))
+    y_true = tf.constant([[123,231,2,0,0,0],
+                          [4,5,2,0,0,0]])
+    y_pred = tf.constant([[123, 231, 3, 2, 0, 0],
+                          [5,4,2,0,0,0]])
+    print(tf.math.equal(y_true, 0))
+    print(tf.math.equal(y_true, 2))
+    mask = tf.cast(tf.math.logical_not(
+        tf.math.logical_or(
+            tf.math.equal(y_true, 0),
+            tf.math.equal(y_true, 2)
+        )), dtype=tf.float32)
+    print(mask)
 
     pass
