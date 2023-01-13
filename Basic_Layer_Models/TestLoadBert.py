@@ -23,15 +23,17 @@ def load_bert(cofig_path,
 
     if checkpoint_path is not None:
         bert_model.load_weight_from_checkpoint(checkpoint_path)
-    print(bert_model.model.summary())
+
     return bert_model.model
 
 if __name__ == '__main__':
-    config_path = '../model_hub/chinese_L-12_H-768_A-12/bert_config.json'
-    ckpt_path = '../model_hub/chinese_L-12_H-768_A-12/bert_model.ckpt'
+    config_path = './model_hub/chinese_L-12_H-768_A-12/bert_config.json'
+    ckpt_path = './model_hub/chinese_L-12_H-768_A-12/bert_model.ckpt'
 
     model = load_bert(cofig_path=config_path,checkpoint_path=ckpt_path)
-    # from bert4keras.models import build_transformer_model
+    print(model.summary())
 
-    # models = build_transformer_model(config_path=config_path,checkpoint_path = ckpt_path,models='bert')
-    # models.summary()
+    from bert4keras.models import build_transformer_model
+
+    models = build_transformer_model(config_path=config_path,checkpoint_path = ckpt_path,models='bert')
+    models.summary()
