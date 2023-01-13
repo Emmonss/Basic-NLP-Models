@@ -108,5 +108,25 @@ class LayerNormalization(Layer):
 
         return outputs
 
+    def compute_output_shape(self, input_shape):
+        if self.conditional:
+            return input_shape[0]
+        else:
+            return input_shape
+
+    def get_config(self):
+        config = {
+            'center': self.center,
+            'scale': self.scale,
+            'epsilon': self.epsilon,
+            'conditional': self.conditional,
+            'hidden_units': self.hidden_units,
+            'hidden_activation': activations.serialize(self.hidden_activation),
+            'hidden_initializer':
+                initializers.serialize(self.hidden_initializer),
+        }
+        base_config = super(LayerNormalization, self).get_config()
+        return dict(list(base_config.items()) + list(config.items()))
+
 if __name__ == '__main__':
     lr = LayerNormalization()

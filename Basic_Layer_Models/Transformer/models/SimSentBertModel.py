@@ -2,13 +2,11 @@
 import os,json
 import tensorflow as tf
 from Basic_Layer_Models.Transformer.models.BERT import BERT
-from Basic_Layer_Models.Transformer.models.BasicModel import BasicModel
 from tensorflow.python.keras.models import Model
 from tensorflow.python.keras.layers import Dense,Dropout
 
-class BertModel_for_Simsent(BasicModel):
+class BertModel_for_Simsent:
     def __init__(self,config):
-        super(BertModel_for_Simsent,self).__init__()
         self.config = config
         self.load_bert()
         self.build()
@@ -52,6 +50,14 @@ class BertModel_for_Simsent(BasicModel):
         self.model = Model(inputs=[seq, seg], outputs=[sent_tc])
         self.model.summary()
         self.model.save(os.path.join("./","test.h5"))
+
+    def predict(self,x):
+        # print(type(self.model))
+        # assert self.model == None, "model is None"
+        return self.model.predict(x)
+
+    def save(self,save_path,model_name):
+        self.model.save(os.path.join(save_path,model_name))
 
 
 if __name__ == '__main__':
