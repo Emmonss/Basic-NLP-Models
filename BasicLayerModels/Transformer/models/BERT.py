@@ -1,10 +1,10 @@
-from Basic_Layer_Models.Transformer.models.Transformer import Transformer
+from BasicLayerModels.Transformer.models.Transformer import Transformer
 from tensorflow.keras.layers import *
-from Basic_Layer_Models.Transformer.layers.PositionEmbedding import PositionEmbedding
-from Basic_Layer_Models.Transformer.layers.LayerNormalization import LayerNormalization
-from Basic_Layer_Models.Transformer.layers.MutiHeadAttention import MultiHeadAttention
-from Basic_Layer_Models.Transformer.layers.FeedForward import FeedForward
-from Basic_Layer_Models.Transformer.layers.BiasAdd import BiasAdd
+from BasicLayerModels.Transformer.layers.PositionEmbedding import PositionEmbedding
+from BasicLayerModels.Transformer.layers.LayerNormalization import LayerNormalization
+from BasicLayerModels.Transformer.layers.MutiHeadAttention import MultiHeadAttention
+from BasicLayerModels.Transformer.layers.FeedForward import FeedForward
+from BasicLayerModels.Transformer.layers.BiasAdd import BiasAdd
 
 class BERT(Transformer):
     '''

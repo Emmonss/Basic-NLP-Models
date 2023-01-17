@@ -1,12 +1,12 @@
 import os
-from Basic_Layer_Models.RNNs.models.NLUBasic import NLUModel
+from BasicLayerModels.RNNs.models.NLUBasic import NLUModel
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Dense,Input,Embedding,Bidirectional,LSTM
 import tensorflow as tf
-from Basic_Layer_Models.RNNs.layers.ConditionalRandomField import CRF
+from BasicLayerModels.RNNs.layers.ConditionalRandomField import CRF
 
 
-class BiLSTM_CRF(NLUModel):
+class BiLSTMCRF(NLUModel):
     def __init__(self,
                  vocab_size,
                  embeddings,
@@ -15,7 +15,7 @@ class BiLSTM_CRF(NLUModel):
                  seg_max_len,
                  lr=0.001,
                  opt='Adam'):
-        super(BiLSTM_CRF, self).__init__()
+        super(BiLSTMCRF, self).__init__()
         self.vocab_size = vocab_size
         self.embeddings = embeddings
         self.hiden_units = hidden_units
@@ -49,10 +49,10 @@ class BiLSTM_CRF(NLUModel):
 
 
 if __name__ == '__main__':
-    BiLSTM_CRF(vocab_size=5000,
-           embeddings=300,
-           hidden_units=300,
-           seg_max_len=50,
-           tag_num=5,
-           lr=0.01
-           )
+    BiLSTMCRF(vocab_size=5000,
+              embeddings=300,
+              hidden_units=300,
+              seg_max_len=50,
+              tag_num=5,
+              lr=0.01
+              )

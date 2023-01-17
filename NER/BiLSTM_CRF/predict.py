@@ -6,7 +6,7 @@ import numpy as np
 sys.path.append('../')
 sys.path.append('../../')
 
-from Basic_Layer_Models.RNNs.layers.ConditionalRandomField import CRF
+from BasicLayerModels.RNNs.layers.ConditionalRandomField import CRF
 from tqdm import tqdm
 from pprint import pprint
 from tensorflow.keras.models import load_model

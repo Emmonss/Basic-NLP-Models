@@ -6,8 +6,8 @@ import numpy as np
 
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import *
-from Basic_Layer_Models.Transformer.layers.MutiHeadAttention import MultiHeadAttention
-from Basic_Layer_Models.Transformer.layers.Concatenate1D import Concatenate1D
+from BasicLayerModels.Transformer.layers.MutiHeadAttention import MultiHeadAttention
+from BasicLayerModels.Transformer.layers.Concatenate1D import Concatenate1D
 from tensorflow.keras import backend as K
 
 

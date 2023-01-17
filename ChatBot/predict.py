@@ -2,7 +2,7 @@ import json,os
 from ChatBot import train_config
 from ChatBot.utils import get_max_from_list
 from ChatBot.sentToken import DialogCodeTrans
-from Basic_Layer_Models.RNNs.models.SequenceAttention import Seq2SeqAttention
+from BasicLayerModels.RNNs.models.SequenceAttention import Seq2SeqAttention
 from pprint import pprint
 from past.builtins import raw_input
 

@@ -1,10 +1,10 @@
 #utf-8
 
 import unicodedata,re
-from Basic_Layer_Models.Transformer.backend.snippets import is_string,is_py2
-from Basic_Layer_Models.Transformer.backend.snippets import open
-from Basic_Layer_Models.Transformer.backend.snippets import convert_to_unicode
-from Basic_Layer_Models.Transformer.backend.snippets import truncate_sequences
+from BasicLayerModels.Transformer.backend.snippets import is_string,is_py2
+from BasicLayerModels.Transformer.backend.snippets import open
+from BasicLayerModels.Transformer.backend.snippets import convert_to_unicode
+from BasicLayerModels.Transformer.backend.snippets import truncate_sequences
 
 
 def load_vocab(dict_path,encoding='utf-8',simplified=False,startswith=None):
@@ -100,7 +100,6 @@ class TokenizerBase(object):
         if maxlen is not None:
             index = int(self._token_end is not None) +1
             truncate_sequences(maxlen,-index,tokens)
-        print(tokens)
         return tokens
 
     def token_to_id(self,token):

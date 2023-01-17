@@ -1,6 +1,6 @@
 
 from ChatBot.utils import is_string,do_lower_reg
-from Basic_Layer_Models.Transformer.backend.snippets import truncate_sequences
+from BasicLayerModels.Transformer.backend.snippets import truncate_sequences
 from tqdm import tqdm
 import unicodedata,jieba
 import numpy as np

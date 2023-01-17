@@ -1,12 +1,15 @@
 
 import os,json
 import tensorflow as tf
-from Basic_Layer_Models.Transformer.models.BERT import BERT
+
+from BasicLayerModels.RNNs.models.NLUBasic import NLUModel
+from BasicLayerModels.Transformer.models.BERT import BERT
 from tensorflow.python.keras.models import Model
 from tensorflow.python.keras.layers import Dense,Dropout
 
-class BertModel_for_Simsent:
+class BertModelForSimsent(NLUModel):
     def __init__(self,config):
+        super(BertModelForSimsent, self).__init__()
         self.config = config
         self.load_bert()
         self.build()
@@ -31,11 +34,9 @@ class BertModel_for_Simsent:
 
         if checkpoint_path is not None:
             bert_model.load_weight_from_checkpoint(checkpoint_path)
-
         return bert_model.model
-        # self.model = bert_model.model
 
-    def build(self,**kwargs):
+    def build(self):
         bert_model = self.load_bert()
 
         if bert_model is None:
@@ -49,25 +50,20 @@ class BertModel_for_Simsent:
         sent_tc = Dense(config["class_num"], activation='softmax', name='sim_classifier')(bert_sent_drop)
         self.model = Model(inputs=[seq, seg], outputs=[sent_tc])
         self.model.summary()
-        self.model.save(os.path.join("./","test.h5"))
 
-    def predict(self,x):
-        # print(type(self.model))
-        # assert self.model == None, "model is None"
-        return self.model.predict(x)
-
-    def save(self,save_path,model_name):
-        self.model.save(os.path.join(save_path,model_name))
-
+    def fit(self,X,Y,valid_data=None,epochs=6,batch_size=32):
+        if self.model is None:
+            raise ValueError("model is None")
+        self.model.fit(X, Y, validation_data=valid_data, epochs=epochs, batch_size=batch_size)
 
 if __name__ == '__main__':
     config = {
-        "config_path" : '../../model_hub/chinese_L-12_H-768_A-12/bert_config.json',
-        "ckpt_path" : '../../model_hub/chinese_L-12_H-768_A-12/bert_model.ckpt',
+        "config_path" : '../../modelHub/chinese_L-12_H-768_A-12/bert_config.json',
+        "ckpt_path" : '../../modelHub/chinese_L-12_H-768_A-12/bert_model.ckpt',
         "dropout":0.1,
         "class_num":2
     }
-    bert = BertModel_for_Simsent(config)
-    print(type(bert.model))
-    bert.save("./","test.h5")
+    bs = BertModelForSimsent(config)
+    print(type(bs.model))
+    bs.save("./","test")
 

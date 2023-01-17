@@ -2,7 +2,7 @@ import os
 os.environ['TF_KERAS'] ="1"
 from tensorflow.keras import backend as K
 from tensorflow.keras.layers import Layer,Dense
-from Basic_Layer_Models.Transformer.backend.backend import recompute_grad,sequence_masking
+from BasicLayerModels.Transformer.backend.backend import recompute_grad,sequence_masking
 import tensorflow as tf
 
 class RelativePositionEmbedding(Layer):

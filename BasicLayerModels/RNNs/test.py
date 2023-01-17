@@ -5,7 +5,7 @@ import tensorflow as tf
 # from bert4keras.layers import ConditionalRandomField
 
 
-from Basic_Layer_Models.RNNs.layers.ConditionalRandomField import CRF
+from BasicLayerModels.RNNs.layers.ConditionalRandomField import CRF
 from tensorflow.keras.layers import Dense,Input,Embedding
 from tensorflow.keras.models import Model,Sequential
 os.environ['CUDA_VISIBLE_DEVICES'] = " "

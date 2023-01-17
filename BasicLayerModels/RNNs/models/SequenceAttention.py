@@ -3,9 +3,9 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Input,Lambda
 from tensorflow_addons.seq2seq.loss import sequence_loss
 
-from Basic_Layer_Models.RNNs.models.NLUBasic import NLUModel
-from Basic_Layer_Models.RNNs.layers.SeqEncoder import Encoder
-from Basic_Layer_Models.RNNs.layers.SeqDcoder import Decoder
+from BasicLayerModels.RNNs.models.NLUBasic import NLUModel
+from BasicLayerModels.RNNs.layers.SeqEncoder import Encoder
+from BasicLayerModels.RNNs.layers.SeqDcoder import Decoder
 
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 import tensorflow as tf

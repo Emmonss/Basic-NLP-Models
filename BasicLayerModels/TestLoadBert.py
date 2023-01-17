@@ -1,6 +1,6 @@
 import json
 
-from Basic_Layer_Models.Transformer.models.BERT import BERT
+from BasicLayerModels.Transformer.models.BERT import BERT
 
 
 def load_bert(cofig_path,
@@ -27,8 +27,8 @@ def load_bert(cofig_path,
     return bert_model.model
 
 if __name__ == '__main__':
-    config_path = './model_hub/chinese_L-12_H-768_A-12/bert_config.json'
-    ckpt_path = './model_hub/chinese_L-12_H-768_A-12/bert_model.ckpt'
+    config_path = 'modelHub/chinese_L-12_H-768_A-12/bert_config.json'
+    ckpt_path = 'modelHub/chinese_L-12_H-768_A-12/bert_model.ckpt'
 
     model = load_bert(cofig_path=config_path,checkpoint_path=ckpt_path)
     print(model.summary())

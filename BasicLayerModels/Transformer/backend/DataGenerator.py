@@ -1,7 +1,7 @@
 
 import numpy as np
 import tensorflow as tf
-from Basic_Layer_Models.Transformer.backend.snippets import is_string
+from BasicLayerModels.Transformer.backend.snippets import is_string
 
 class DataGenerator(object):
     '''

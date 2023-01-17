@@ -1,7 +1,7 @@
 import sys,os
 sys.path.append('../../')
 sys.path.append('../')
-from Basic_Layer_Models.RNNs.models.BiLSTMSoftmax import BiLSTM
+from BasicLayerModels.RNNs.models.BiLSTMSoftmax import BiLSTM
 from Segment.DataProcess.data import get_words_label_data
 from Segment.Utils.basic_utils import *
 

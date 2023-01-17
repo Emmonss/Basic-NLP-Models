@@ -3,9 +3,9 @@ import os
 os.environ['TF_KERAS'] ="1"
 from tensorflow.keras import backend as K
 from tensorflow.keras.layers import Layer,Dense
-from Basic_Layer_Models.Transformer.layers.integerize_shape import integerize_shape
+from BasicLayerModels.Transformer.layers.integerize_shape import integerize_shape
 import tensorflow as tf
-from Basic_Layer_Models.Transformer.backend import sequence_masking
+from BasicLayerModels.Transformer.backend import sequence_masking
 
 
 class MaximumEntropyMarkovModel(Layer):

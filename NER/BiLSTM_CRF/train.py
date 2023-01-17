@@ -2,7 +2,7 @@ import sys,os
 import tensorflow as tf
 sys.path.append('../../')
 sys.path.append('../')
-from Basic_Layer_Models.RNNs.models.BiLSTMCRF import BiLSTM_CRF
+from BasicLayerModels.RNNs.models.BiLSTMCRF import BiLSTMCRF
 from NER.DataProcess.data import get_words_label_data
 from NER.Utils.basic_utils import *
 
@@ -22,12 +22,12 @@ def load_model(vocab_size,
                tag_num,
                seg_max_len,
                lr):
-    model = BiLSTM_CRF(vocab_size,
-                 embeddings,
-                 hidden_units,
-                 tag_num,
-                 seg_max_len,
-                 lr=lr)
+    model = BiLSTMCRF(vocab_size,
+                      embeddings,
+                      hidden_units,
+                      tag_num,
+                      seg_max_len,
+                      lr=lr)
 
     return model
 

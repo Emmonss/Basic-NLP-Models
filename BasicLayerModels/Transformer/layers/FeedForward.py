@@ -2,8 +2,8 @@ import os
 os.environ['TF_KERAS'] ="1"
 from tensorflow.keras import initializers,activations
 from tensorflow.keras.layers import Layer,Dense
-from Basic_Layer_Models.Transformer.backend.backend import recompute_grad,sequence_masking
-from Basic_Layer_Models.Transformer.layers.integerize_shape import integerize_shape
+from BasicLayerModels.Transformer.backend.backend import recompute_grad,sequence_masking
+from BasicLayerModels.Transformer.layers.integerize_shape import integerize_shape
 import tensorflow as tf
 
 

@@ -2,7 +2,7 @@ import os
 os.environ['TF_KERAS'] ="1"
 from tensorflow.keras import backend as K
 from tensorflow.keras.layers import Layer
-from Basic_Layer_Models.Transformer.layers.integerize_shape import integerize_shape
+from BasicLayerModels.Transformer.layers.integerize_shape import integerize_shape
 
 class BiasAdd(Layer):
     @integerize_shape

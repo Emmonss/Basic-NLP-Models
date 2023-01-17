@@ -5,7 +5,7 @@ from bert4keras import tokenizers
 
 import jieba,re
 import unicodedata
-from Basic_Layer_Models.RNNs.utils.snippets import truncate_sequences,is_string,is_py2
+from BasicLayerModels.RNNs.utils.snippets import truncate_sequences,is_string,is_py2
 
 def load_vocab(dict_path, encoding='utf-8', simplified=False,startwith=None):
     token_dict = {}

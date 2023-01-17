@@ -2,7 +2,7 @@
 import os,json
 import numpy as np
 from ChatBot.sentToken import DialogCodeTrans
-from Basic_Layer_Models.RNNs.models.SequenceAttention import Seq2SeqAttention
+from BasicLayerModels.RNNs.models.SequenceAttention import Seq2SeqAttention
 from ChatBot import train_config
 from ChatBot.utils import make_dict
 from datetime import datetime

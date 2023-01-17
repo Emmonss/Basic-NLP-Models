@@ -1,4 +1,4 @@
-from Basic_Layer_Models.RNNs.models.NLUBasic import NLUModel
+from BasicLayerModels.RNNs.models.NLUBasic import NLUModel
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Dense,Input,Embedding,Bidirectional,LSTM
 import tensorflow as tf

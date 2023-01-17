@@ -4,7 +4,7 @@ os.environ['TF_KERAS'] ="1"
 from tensorflow.keras import backend as K
 from tensorflow.keras.layers import Layer,Dense
 from tensorflow.keras import initializers,activations
-from Basic_Layer_Models.Transformer.backend.backend import recompute_grad
+from BasicLayerModels.Transformer.backend.backend import recompute_grad
 
 class LayerNormalization(Layer):
     def __init__(self,

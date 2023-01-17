@@ -5,7 +5,7 @@ import tqdm
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.callbacks import TensorBoard
 from tensorflow.keras.optimizers import Adam
-from Basic_Layer_Models.RNNs.layers.ConditionalRandomField import CRF
+from BasicLayerModels.RNNs.layers.ConditionalRandomField import CRF
 
 
 # from CRF import CRF
