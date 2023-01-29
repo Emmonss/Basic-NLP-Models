@@ -5,7 +5,7 @@ import numpy as np
 from tqdm import tqdm
 from pprint import pprint
 from BasicLayerModels.Transformer.backend.BertTokenizers import Tokenizer as myTokenizer
-from SimSentence.BertOnly.SentsToken import read_corpus
+from SimSentence.BertOnly.sentsToken import read_corpus
 
 
 class SimBertTokenizer:
@@ -26,7 +26,7 @@ class SimBertTokenizer:
         else:
             raise ValueError("flag should be any of [train,val,predict]")
 
-        data = data[:self.maxLen]
+        # data = data[:self.maxLen]
         token_ids = []
         seg_ids = []
         tags = []
@@ -68,12 +68,16 @@ if __name__ == '__main__':
     #     ["他是傻逼","我们都是傻逼",1],
     #     ["他是傻逼", "我们都是傻逼", 1]
     # ]
-    data = read_corpus('../datas/bq_corpus/train.tsv')[:10]
-    pprint(data)
+    data = read_corpus('../datas/bq_corpus/train.tsv')
+    # pprint(data)
     token_ids,seg_ids,tags = tokenizer.SimSent2BertIndex(data)
+
     print("token_ids".center(30,'='))
-    pprint(token_ids)
+    print(np.shape(token_ids))
+    # pprint(token_ids)
     print("seg_ids".center(30, '='))
-    pprint(seg_ids)
+    print(np.shape(seg_ids))
+    # pprint(seg_ids)
     print("tags".center(30, '='))
-    pprint(tags)
+    print(np.shape(tags))
+    # pprint(tags)

@@ -1,5 +1,5 @@
 import json,os
-from ChatBot import train_config
+from ChatBot import trainConfig
 from ChatBot.utils import get_max_from_list
 from ChatBot.sentToken import DialogCodeTrans
 from BasicLayerModels.RNNs.models.SequenceAttention import Seq2SeqAttention
@@ -10,7 +10,7 @@ def get_model(type_name,model_name,root_path='./models'):
     #默认取当前目录下最新的模型
     time_path = get_max_from_list(os.listdir(os.path.join(root_path,type_name)))
     print(time_path)
-    with open(os.path.join(root_path,type_name,time_path,train_config.params_save_name),'r',encoding='utf=8') as fr:
+    with open(os.path.join(root_path, type_name, time_path, trainConfig.params_save_name), 'r', encoding='utf=8') as fr:
         params = json.load(fr)
         vocab_size = params['vocab_size']
         embed_dim = params['embed_dim']
@@ -37,7 +37,7 @@ def get_model(type_name,model_name,root_path='./models'):
 
 def main():
     type_name = 'xhj'
-    model_name = train_config.model_name_xhj
+    model_name = trainConfig.model_name_xhj
     dct, bot = get_model(type_name,model_name)
     while True:
         text = raw_input('you:')

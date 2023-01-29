@@ -13,6 +13,7 @@ class BertModelForSimsent(NLUModel):
         self.config = config
         self.load_bert()
         self.build()
+        self.compile_model()
 
     def load_bert(self,**kwargs):
         config_path = self.config["config_path"]
@@ -45,9 +46,9 @@ class BertModelForSimsent(NLUModel):
 
         bert_out = bert_model.output
         bert_sent = bert_out[:, 0, :]
-        bert_sent_drop = Dropout(rate=config["dropout"], name="bert_sent_drop")(bert_sent)
+        bert_sent_drop = Dropout(rate=self.config["dropout"], name="bert_sent_drop")(bert_sent)
 
-        sent_tc = Dense(config["class_num"], activation='softmax', name='sim_classifier')(bert_sent_drop)
+        sent_tc = Dense(self.config["class_num"], activation='softmax', name='sim_classifier')(bert_sent_drop)
         self.model = Model(inputs=[seq, seg], outputs=[sent_tc])
         self.model.summary()
 
@@ -56,14 +57,25 @@ class BertModelForSimsent(NLUModel):
             raise ValueError("model is None")
         self.model.fit(X, Y, validation_data=valid_data, epochs=epochs, batch_size=batch_size)
 
+    def compile_model(self):
+        opt = tf.keras.optimizers.Adam(lr=self.config["learning_rate"])
+        loss = {
+            'sim_classifier':'sparse_categorical_crossentropy'
+        }
+        loss_weight = {'sim_classifier':1.0}
+        metrics = {'sim_classifier':'acc'}
+        self.model.compile(optimizer=opt,loss=loss,metrics=metrics,loss_weights=loss_weight)
+
+
 if __name__ == '__main__':
-    config = {
+    config123 = {
         "config_path" : '../../modelHub/chinese_L-12_H-768_A-12/bert_config.json',
         "ckpt_path" : '../../modelHub/chinese_L-12_H-768_A-12/bert_model.ckpt',
         "dropout":0.1,
-        "class_num":2
+        "class_num":2,
+        "learning_rate":1e-5
     }
-    bs = BertModelForSimsent(config)
+    bs = BertModelForSimsent(config123)
     print(type(bs.model))
     bs.save("./","test")
 

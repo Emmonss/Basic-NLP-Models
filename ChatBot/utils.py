@@ -1,7 +1,7 @@
 
 
 import jieba,re
-from ChatBot import train_config
+from ChatBot import trainConfig
 
 def pre_token(text):
     return jieba.lcut(text)
@@ -62,8 +62,8 @@ def make_dict(input_list,output_list,pretoken=False,
     fw.close()
 
 if __name__ == '__main__':
-    inpath = train_config.inpath_xhj
-    tarpath = train_config.tarpath_xhj
-    dictpath = train_config.dict_path
+    inpath = trainConfig.inpath_xhj
+    tarpath = trainConfig.tarpath_xhj
+    dictpath = trainConfig.dict_path
     make_dict([inpath,tarpath],dictpath)
     pass
