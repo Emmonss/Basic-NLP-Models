@@ -111,7 +111,7 @@ class MultiHeadAttention(Layer):
 
         a = K.softmax(a)
 
-        o = tf.einsum('bhjk,bhkd->bjhd',a,vw)
+        o = tf.einsum('bhjk,bkhd->bjhd',a,vw)
         if p_bias == 'typical_relative':
             o = o + tf.einsum('bhjk,jkd->bjhd',a,position_bias)
         return o
