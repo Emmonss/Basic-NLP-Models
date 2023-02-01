@@ -1,6 +1,6 @@
 from BasicLayerModels.Transformer.backend.DictToClass import DictToClass
 from BasicLayerModels.Transformer.models.BasicModel import BasicModel
-from BasicLayerModels.Transformer.models.load_model import load_bert_from_ckpt
+from BasicLayerModels.Transformer.models.LoadModel import load_bert_from_ckpt
 from tensorflow.python.keras.layers import Dense,Dropout
 from tensorflow.python.keras.models import Model
 
