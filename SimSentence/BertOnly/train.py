@@ -19,14 +19,7 @@ logger = Logger("Main").get_logger()
 
 
 def load_model():
-    configs = {
-        "config_path": config.configPath,
-        "ckpt_path": config.ckptPath,
-        "dropout": config.dropout,
-        "class_num": config.classNum,
-        "learning_rate":config.lr
-    }
-    model = BertModelForSimsent(configs)
+    model = BertModelForSimsent(config)
     return model
 
 def train(train_data_path,val_data_path,tokenizer):
@@ -52,7 +45,7 @@ def train(train_data_path,val_data_path,tokenizer):
     model.fit(train_X,train_Y,
                   valid_data=(val_X,val_Y),
                   epochs=config.epoch,
-                  batch_size=config.batchSize)
+                  batch_size=config.batch_size)
 
 #######################################################
 def train_bq_corpus(tokenizer):
@@ -63,8 +56,9 @@ def train_bq_corpus(tokenizer):
     train(train_data_path,val_data_path,tokenizer)
 
 if __name__ == '__main__':
-    tokenizer = SimBertTokenizer(config.vocabPath,
-                                 maxlen=config.maxLen,
-                                 do_lower_case=config.doLowerCase)
+    pass
+    tokenizer = SimBertTokenizer(config.vocab_path,
+                                 maxlen=config.max_len,
+                                 do_lower_case=config.do_lower_case)
     train_bq_corpus(tokenizer)
 
