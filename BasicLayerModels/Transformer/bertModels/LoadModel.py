@@ -1,5 +1,5 @@
 import json
-from BasicLayerModels.Transformer.models.BERT import BERT
+from BasicLayerModels.Transformer.bertModels.BERT import BERT
 
 def load_bert_from_ckpt(config_path,ckpt_path,**kwargs):
     config_path = config_path

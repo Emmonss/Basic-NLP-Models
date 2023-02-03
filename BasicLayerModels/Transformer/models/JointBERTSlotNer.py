@@ -1,11 +1,13 @@
-from BasicLayerModels.Transformer.backend.DictToClass import DictToClass
 from BasicLayerModels.Transformer.models.BasicModel import BasicModel
-from BasicLayerModels.Transformer.models.LoadModel import load_bert_from_ckpt
+from BasicLayerModels.Transformer.bertModels.LoadModel import load_bert_from_ckpt
 from tensorflow.python.keras.layers import Dense,Dropout
 from tensorflow.python.keras.models import Model
-
+from BasicLayerModels.Transformer.backend.snippets import DictToClass,ClassToDict,read_json_1dict,write_json_2format_1dict
+from datetime import datetime
 import tensorflow as tf
-import json
+import os
+
+
 class JointBertSlotNer(BasicModel):
     def __init__(self,intent_num,slot_num,config,**kwargs):
         '''
@@ -60,6 +62,18 @@ class JointBertSlotNer(BasicModel):
         if self.model is None:
             raise ValueError("model is None")
         self.model.fit(X, Y, validation_data=valid_data, epochs=epochs, batch_size=batch_size)
+
+    def save(self, save_path, model_name):
+        time_date = datetime.now()
+        time = '{}-{}-{}-{}'.format(time_date.year, time_date.month, time_date.day, time_date.hour)
+        if not os.path.exists(os.path.join(save_path, time)):
+            os.makedirs(os.path.join(save_path, time))
+        assert self.model is not None, "model object is None!"
+        self.model.save(os.path.join(save_path, time,
+                                     '{}.h5'.format(model_name)))
+
+        write_json_2format_1dict(ClassToDict(self.config),
+                                 os.path.join(save_path, time, '{}.json'.format(model_name)))
 
 
 if __name__ == '__main__':

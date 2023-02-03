@@ -10,3 +10,4 @@ lr = 1e-5
 vocab_path = '../../BasicLayerModels/modelHub/chinese_L-12_H-768_A-12/vocab.txt'
 config_path = '../../BasicLayerModels/modelHub/chinese_L-12_H-768_A-12/bert_config.json'
 ckpt_path = '../../BasicLayerModels/modelHub/chinese_L-12_H-768_A-12/bert_model.ckpt'
+save_path = './result'

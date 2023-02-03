@@ -1,11 +1,11 @@
-
-import os,json
+import os
 import tensorflow as tf
-from BasicLayerModels.Transformer.backend.DictToClass import DictToClass
+from BasicLayerModels.Transformer.backend.snippets import DictToClass,ClassToDict,read_json_1dict,write_json_2format_1dict
 from BasicLayerModels.Transformer.models.BasicModel import BasicModel
-from BasicLayerModels.Transformer.models.LoadModel import load_bert_from_ckpt
+from BasicLayerModels.Transformer.bertModels.LoadModel import load_bert_from_ckpt
 from tensorflow.python.keras.models import Model
 from tensorflow.python.keras.layers import Dense,Dropout
+from datetime import datetime
 class BertModelForSimsent(BasicModel):
     def __init__(self,config,**kwargs):
         '''
@@ -21,6 +21,7 @@ class BertModelForSimsent(BasicModel):
         '''
         super(BertModelForSimsent, self).__init__()
         self.config = config
+
         self.build(**kwargs)
         self.compile_model()
 
@@ -54,21 +55,34 @@ class BertModelForSimsent(BasicModel):
         metrics = {'sim_classifier':'acc'}
         self.model.compile(optimizer=opt,loss=loss,metrics=metrics,loss_weights=loss_weight)
 
+    def save(self,save_path,model_name):
+        time_date = datetime.now()
+        time = '{}-{}-{}-{}'.format(time_date.year,time_date.month,time_date.day,time_date.hour)
+        if not os.path.exists(os.path.join(save_path,time)):
+            os.makedirs(os.path.join(save_path,time))
+        assert self.model is not None, "model object is None!"
+        self.model.save(os.path.join(save_path,time,
+                                     '{}.h5'.format(model_name)))
+
+        write_json_2format_1dict(ClassToDict(self.config),
+                                 os.path.join(save_path,time,'{}.json'.format(model_name)))
+
+
+
 
 if __name__ == '__main__':
     config_dict = {
-        "max_len" : 128,
-        "do_lower_case" : True,
-        "dropout" : 0.1,
-        "class_num" : 2,
-        "epoch" : 5,
-        "batch_size" : 16,
-        "lr" : 1e-5,
-        "vocab_path" : '../../modelHub/chinese_L-12_H-768_A-12/vocab.txt',
-        "config_path" : '../../modelHub/chinese_L-12_H-768_A-12/bert_config.json',
-        "ckpt_path" : '../../modelHub/chinese_L-12_H-768_A-12/bert_model.ckpt'
+        "max_len": 128,
+        "do_lower_case": True,
+        "dropout": 0.1,
+        "class_num": 2,
+        "epoch": 5,
+        "batch_size": 16,
+        "lr": 1e-5,
+        "vocab_path": '../../modelHub/chinese_L-12_H-768_A-12/vocab.txt',
+        "config_path": '../../modelHub/chinese_L-12_H-768_A-12/bert_config.json',
+        "ckpt_path": '../../modelHub/chinese_L-12_H-768_A-12/bert_model.ckpt'
     }
     config = DictToClass(**config_dict)
     model = BertModelForSimsent(config=config)
-    pass
 

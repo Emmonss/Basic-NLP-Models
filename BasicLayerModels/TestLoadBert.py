@@ -1,6 +1,6 @@
 import json
 
-from BasicLayerModels.Transformer.models.BERT import BERT
+from BasicLayerModels.Transformer.bertModels.BERT import BERT
 
 
 def load_bert(cofig_path,
