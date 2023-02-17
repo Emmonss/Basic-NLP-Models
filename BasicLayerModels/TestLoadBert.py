@@ -27,13 +27,20 @@ def load_bert(cofig_path,
     return bert_model.model
 
 if __name__ == '__main__':
-    config_path = 'modelHub/chinese_L-12_H-768_A-12/bert_config.json'
-    ckpt_path = 'modelHub/chinese_L-12_H-768_A-12/bert_model.ckpt'
+    import tensorflow as tf
+    input_shape = (2, 3, 4)
+    x1 = tf.random.normal(input_shape)
+    x2 = tf.random.normal(input_shape)
+    y = tf.keras.layers.Add()([x1, x2])
+    print(y.shape)
 
-    model = load_bert(cofig_path=config_path,checkpoint_path=ckpt_path)
-    print(model.summary())
-
-    from bert4keras.models import build_transformer_model
-
-    models = build_transformer_model(config_path=config_path,checkpoint_path = ckpt_path,models='bert')
-    models.summary()
+    # config_path = 'modelHub/chinese_L-12_H-768_A-12/bert_config.json'
+    # ckpt_path = 'modelHub/chinese_L-12_H-768_A-12/bert_model.ckpt'
+    #
+    # model = load_bert(cofig_path=config_path,checkpoint_path=ckpt_path)
+    # print(model.summary())
+    #
+    # from bert4keras.models import build_transformer_model
+    #
+    # models = build_transformer_model(config_path=config_path,checkpoint_path = ckpt_path,models='bert')
+    # models.summary()
