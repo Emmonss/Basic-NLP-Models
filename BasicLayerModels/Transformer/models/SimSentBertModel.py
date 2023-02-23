@@ -6,6 +6,7 @@ from BasicLayerModels.Transformer.bertModels.LoadModel import load_bert_from_ckp
 from tensorflow.python.keras.models import Model
 from tensorflow.python.keras.layers import Dense,Dropout
 from datetime import datetime
+
 class BertModelForSimsent(BasicModel):
     def __init__(self,config,**kwargs):
         '''
@@ -26,8 +27,10 @@ class BertModelForSimsent(BasicModel):
         self.compile_model()
 
     def build(self,**kwargs):
-        bert_model =load_bert_from_ckpt(self.config.config_path,
-                                        self.config.ckpt_path,**kwargs)
+        bert_model =load_bert_from_ckpt(config_path=self.config.config_path,
+                                        ckpt_path=self.config.ckpt_path,
+                                        model_type=self.config.model_type,
+                                        **kwargs)
 
         if bert_model is None:
             raise ValueError("bert_model is None!")
@@ -62,13 +65,12 @@ class BertModelForSimsent(BasicModel):
             os.makedirs(os.path.join(save_path,time))
         assert self.model is not None, "model object is None!"
         self.model.save(os.path.join(save_path,time,
-                                     '{}.h5'.format(model_name)))
+            '{}_{}.h5'.format(model_name,
+                              self.config.model_type)))
 
         write_json_2format_1dict(ClassToDict(self.config),
-                                 os.path.join(save_path,time,'{}.json'.format(model_name)))
-
-
-
+            os.path.join(save_path,time,'{}_{}.json'.format(model_name,
+                                                            self.config.model_type)))
 
 if __name__ == '__main__':
     config_dict = {

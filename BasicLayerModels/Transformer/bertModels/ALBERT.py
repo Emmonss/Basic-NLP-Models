@@ -1,12 +1,10 @@
-from BasicLayerModels.Transformer.bertModels import BERT
+from BasicLayerModels.Transformer.bertModels.BERT import BERT
 from BasicLayerModels.Transformer.layers.MutiHeadAttention import MultiHeadAttention
 from BasicLayerModels.Transformer.layers.LayerNormalization import LayerNormalization
 from BasicLayerModels.Transformer.layers.FeedForward import FeedForward
-from tensorflow.keras.layers import *
+from tensorflow.keras.layers import Add,Dropout
 
 class ALBERT(BERT):
-    def __init__(self):
-        super(ALBERT, self).__init__()
     '''ALBERT模型
     '''
     def apply_main_layers(self,inputs,index):
@@ -114,3 +112,6 @@ class ALBERT(BERT):
         })
 
         return mapping
+
+if __name__ == '__main__':
+    pass
