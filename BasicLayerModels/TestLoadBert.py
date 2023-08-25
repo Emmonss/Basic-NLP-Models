@@ -1,25 +1,39 @@
 import json
 
-from BasicLayerModels.Transformer.models.BERT import BERT
-
-
-def load_bert(cofig_path,
+from BasicLayerModels.Transformer.bertModels.BERT import BERT
+from BasicLayerModels.Transformer.bertModels.ALBERT import ALBERT
+from BasicLayerModels.Transformer.backend.snippets import *
+def load_bert(config_path,
               checkpoint_path,
+              model_type ='bert',
               **kwargs):
-    cofigs = {}
-    if cofig_path is not None:
-        cofigs.update(json.load(open(cofig_path)))
-    cofigs.update(kwargs)
+    configs = {}
+    if config_path is not None:
+        configs.update(json.load(open(config_path)))
+    configs.update(kwargs)
 
-    if 'max_position' not in cofigs:
-        cofigs['max_position'] = cofigs.get('max_position_embeddings',512)
-    if 'dropout_rate' not in cofigs:
-        cofigs['dropout_rate'] = cofigs.get('hidden_dropout_prob')
-    if 'segment_vocab_size' not in cofigs:
-        cofigs['segment_vocab_size'] = cofigs.get('type_vocab_size',2)
+    if 'max_position' not in configs:
+        configs['max_position'] = configs.get('max_position_embeddings',512)
+    if 'dropout_rate' not in configs:
+        configs['dropout_rate'] = configs.get('hidden_dropout_prob')
+    if 'segment_vocab_size' not in configs:
+        configs['segment_vocab_size'] = configs.get('type_vocab_size',2)
 
-    bert_model = BERT(**cofigs)
-    bert_model.build()
+    models={
+        'bert':BERT,
+        'albert':ALBERT
+    }
+    if is_string(model_type):
+        model_type = model_type.lower()
+        if model_type in models.keys():
+            MODEL = models.get(model_type)
+        else:
+            MODEL=BERT
+    else:
+        MODEL = model_type
+
+    bert_model = MODEL(**configs)
+    bert_model.build(**configs)
 
     if checkpoint_path is not None:
         bert_model.load_weight_from_checkpoint(checkpoint_path)
@@ -27,13 +41,23 @@ def load_bert(cofig_path,
     return bert_model.model
 
 if __name__ == '__main__':
+    pass
+    #BERT
     config_path = 'modelHub/chinese_L-12_H-768_A-12/bert_config.json'
     ckpt_path = 'modelHub/chinese_L-12_H-768_A-12/bert_model.ckpt'
-
-    model = load_bert(cofig_path=config_path,checkpoint_path=ckpt_path)
+    model = load_bert(config_path=config_path,
+                      checkpoint_path=ckpt_path,
+                      model_type='BERT')
     print(model.summary())
 
-    from bert4keras.models import build_transformer_model
+    config_path = 'modelHub/albert/albert_config.json'
+    ckpt_path = 'modelHub/albert/albert_model.ckpt'
+    model = load_bert(config_path=config_path,
+                      checkpoint_path=ckpt_path,
+                      model_type='albert')
+    print(model.summary())
 
-    models = build_transformer_model(config_path=config_path,checkpoint_path = ckpt_path,models='bert')
-    models.summary()
+    # from bert4keras.models import build_transformer_model
+    #
+    # models = build_transformer_model(config_path=config_path,checkpoint_path = ckpt_path,models='bert')
+    # models.summary()

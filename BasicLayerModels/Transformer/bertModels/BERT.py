@@ -1,4 +1,4 @@
-from BasicLayerModels.Transformer.models.Transformer import Transformer
+from BasicLayerModels.Transformer.bertModels.Transformer import Transformer
 from tensorflow.keras.layers import *
 from BasicLayerModels.Transformer.layers.PositionEmbedding import PositionEmbedding
 from BasicLayerModels.Transformer.layers.LayerNormalization import LayerNormalization

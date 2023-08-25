@@ -4,8 +4,6 @@ import os,sys,six,re,json
 import logging
 import numpy as np
 from collections import defaultdict
-import tensorflow as tf
-import tensorflow.keras.backend as K
 import tensorflow.keras as keras
 
 _open_ = open
@@ -389,6 +387,37 @@ def longest_common_substring(source,target):
                     span = (i-1,i,j-1,j)
     return l,span
 
+
+def read_json_1dict(path):
+    """
+    读取json，用于一个dict
+    :param path: 路径
+    :return: 一个dict
+    """
+    with open(path, "r", encoding='utf-8') as r:
+        dic = json.load(r)
+    return dic
+def write_json_2format_1dict(dic, jsonFile):
+    """
+    一个dict写成json文件，两个可视化使用
+    :param dic: 一个dict
+    :param jsonFile: 路径
+    :return:
+    """
+    with open(jsonFile, "w", encoding='utf-8') as w:
+        w.write(json.dumps(dic, ensure_ascii=False)+"\n")
+
+class DictToClass(object):
+    def __init__(self, **entries):
+        self.__dict__.update(entries)
+
+def ClassToDict(obj):
+    pr = {}
+    for name in dir(obj):
+        value = getattr(obj, name)
+        if not name.startswith('__') and not callable(value):
+            pr[name] = value
+    return pr
 
 if __name__ == '__main__':
     pass
