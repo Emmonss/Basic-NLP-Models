@@ -1,11 +1,17 @@
 
 import os,json
 import tensorflow as tf
+from datetime import datetime
 from BasicLayerModels.Transformer.backend.DictToClass import DictToClass
 from BasicLayerModels.Transformer.models.BasicModel import BasicModel
 from BasicLayerModels.Transformer.models.LoadModel import load_bert_from_ckpt
-from tensorflow.python.keras.models import Model
-from tensorflow.python.keras.layers import Dense,Dropout
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import Dense,Dropout
+
+
+from tensorflow.python.framework.ops import disable_eager_execution
+disable_eager_execution()
+
 class BertModelForSimsent(BasicModel):
     def __init__(self,config,**kwargs):
         '''
@@ -54,8 +60,32 @@ class BertModelForSimsent(BasicModel):
         metrics = {'sim_classifier':'acc'}
         self.model.compile(optimizer=opt,loss=loss,metrics=metrics,loss_weights=loss_weight)
 
+    def save(self,save_path,model_name):
+        assert self.model is not None, "model object is None!"
+        time = str(int(datetime.timestamp(datetime.now())))
+        os.makedirs(os.path.join(save_path,time))
+        self.model.save(os.path.join(save_path,time, '{}.h5'.format(model_name)))
+        config_dict = {
+            "max_len": self.config.max_len,
+            "do_lower_case": self.config.do_lower_case,
+            "dropout": self.config.dropout,
+            "class_num": self.config.class_num,
+            "epoch": self.config.epoch,
+            "batch_size": self.config.batch_size,
+            "lr": self.config.lr,
+            "vocab_path": self.config.vocab_path,
+            "config_path": self.config.config_path,
+            "ckpt_path": self.config.ckpt_path
+        }
+        with open(os.path.join(save_path,time,'{}.json'.format(model_name)), "w", encoding='utf-8') as w:
+            w.write(json.dumps(config_dict, ensure_ascii=False))
+
+
+
+
 
 if __name__ == '__main__':
+
     config_dict = {
         "max_len" : 128,
         "do_lower_case" : True,

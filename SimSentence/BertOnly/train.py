@@ -22,7 +22,7 @@ def load_model():
     model = BertModelForSimsent(config)
     return model
 
-def train(train_data_path,val_data_path,tokenizer):
+def train(train_data_path,val_data_path,tokenizer,model_name='1.h5'):
     logger.info("loading and trans data ")
     train_data = read_corpus(train_data_path)
     train_token_ids, train_seg_ids, train_tags = tokenizer.SimSent2BertIndex(train_data)
@@ -46,6 +46,8 @@ def train(train_data_path,val_data_path,tokenizer):
                   valid_data=(val_X,val_Y),
                   epochs=config.epoch,
                   batch_size=config.batch_size)
+    model.save(config.save_path,model_name)
+
 
 #######################################################
 def train_bq_corpus(tokenizer):
@@ -53,7 +55,7 @@ def train_bq_corpus(tokenizer):
     logger.info("train_bq_corpus simsententce")
     train_data_path = '../datas/bq_corpus/train.tsv'
     val_data_path = '../datas/bq_corpus/dev.tsv'
-    train(train_data_path,val_data_path,tokenizer)
+    train(train_data_path,val_data_path,tokenizer,model_name='bq_corpus_bert_sim')
 
 if __name__ == '__main__':
     pass

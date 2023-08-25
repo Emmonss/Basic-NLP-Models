@@ -9,6 +9,8 @@ from tensorflow.keras.layers import *
 from BasicLayerModels.Transformer.layers.MutiHeadAttention import MultiHeadAttention
 from BasicLayerModels.Transformer.layers.Concatenate1D import Concatenate1D
 from tensorflow.keras import backend as K
+# from tensorflow.python.keras.api._v2.keras import backend as K
+
 
 
 class Transformer(object):
